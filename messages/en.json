@@ -302,7 +302,7 @@
     "startOver": "Start over",
     "upload": {
       "title": "Upload your thesis PDF (optional)",
-      "help": "We count the pages on our server so your printing price is exact. PDF only, up to {max} MB. Your file is stored privately and is not shown on the website.",
+      "help": "Preview: your PDF stays on your device; we only count its pages here. On the live site the file is stored privately and counted on our server. PDF only, up to {max} MB.",
       "choose": "Choose PDF file",
       "uploading": "Uploading… {pct}%",
       "cancel": "Cancel",
@@ -310,7 +310,7 @@
       "replace": "Replace",
       "remove": "Remove file",
       "pagesLocked": "Pages are set from your uploaded PDF.",
-      "checked": "Price checked on our server",
+      "checked": "Price from the catalogue rules (preview)",
       "checking": "Checking price…",
       "expired": "Your uploaded file is no longer available. Please upload it again.",
       "errors": {
@@ -347,7 +347,7 @@
     "full": "Your cart is full (20 items). Please check out or remove an item first.",
     "remove": "Remove",
     "quantity": "Quantity",
-    "checked": "Prices checked on our server",
+    "checked": "Prices from the catalogue rules (preview)",
     "checking": "Checking prices…",
     "lineError": "We can't price this item any more. Please remove it and add it again.",
     "subtotal": "Subtotal",

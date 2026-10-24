@@ -8,6 +8,7 @@ import { dirFor, routing } from "@/i18n/routing";
 import { site } from "@/config/site";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { DemoApiInstaller } from "@/components/demo/demo-api-installer";
 import "../globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter", display: "swap" });
@@ -82,6 +83,7 @@ export default async function LocaleLayout({
           }}
         />
         <NextIntlClientProvider>
+          <DemoApiInstaller />
           <SiteHeader />
           <main id="main" tabIndex={-1} className="outline-none">
             {children}

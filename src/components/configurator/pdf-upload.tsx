@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useId, useRef, useState } from "react";
 import type { UploadedPdf } from "@/lib/configurator/state";
 import { PUBLIC_UPLOAD_MAX_MB } from "@/lib/uploads/limits";
+import { demoInspectPdf } from "@/components/demo/demo-api";
 
 const KNOWN_ERRORS = ["not_pdf", "encrypted", "unreadable", "no_pages", "too_many_pages", "too_large", "rate_limited"] as const;
 
@@ -26,6 +27,20 @@ export function PdfUpload({ value, onChange }: { value: UploadedPdf | null; onCh
     if (!looksPdf) return setError("not_pdf");
     if (file.size > PUBLIC_UPLOAD_MAX_MB * 1024 * 1024) return setError("too_large");
 
+    // Preview build: read the page count in the browser; nothing is uploaded.
+    setProgress(0);
+    void demoInspectPdf(file).then(
+      (r) => {
+        setProgress(null);
+        if (r.ok) onChange(r.upload as UploadedPdf);
+        else setError(errorKey(r.code));
+      },
+      () => {
+        setProgress(null);
+        setError("generic");
+      },
+    );
+    return;
     const form = new FormData();
     form.append("file", file);
     const xhr = new XMLHttpRequest();
