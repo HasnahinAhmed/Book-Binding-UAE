@@ -1,0 +1,38 @@
+{
+  "meta": {
+    "title": "Book Binding UAE — Thesis printing and premium hardcover binding",
+    "description": "Thesis printing and binding across the UAE: regular hardcover, custom printed covers, PU leather and luxury box sets. Customise your cover, see clear prices, and order on WhatsApp."
+  },
+  "a11y": {
+    "skip": "Skip to content",
+    "menu": "Menu",
+    "closeMenu": "Close menu",
+    "mainNav": "Main navigation",
+    "home": "Book Binding UAE home"
+  },
+  "nav": {
+    "products": "Products",
+    "pricing": "Pricing",
+    "builder": "3D Thesis Builder",
+    "howItWorks": "How it works",
+    "contact": "Contact"
+  },
+  "lang": {
+    "switchTo": "العربية",
+    "switchLabel": "Switch language to Arabic"
+  },
+  "cta": {
+    "whatsapp": "Chat on WhatsApp",
+    "whatsappShort": "WhatsApp",
+    "whatsappGreeting": "Hello Book Binding UAE, I would like to ask about thesis binding."
+  },
+  "footer": {
+    "tagline": "Thesis printing, hardcover binding and premium PU leather books, made in the UAE.",
+    "experience": "14+ years of industry experience",
+    "contactTitle": "Contact",
+    "linksTitle": "Explore",
+    "instagram": "Instagram",
+    "priceNote": "Product prices are for hardcover binding only. Page printing is charged separately.",
+    "rights": "© {year} Book Binding UAE. All rights reserved."
+  }
+}
