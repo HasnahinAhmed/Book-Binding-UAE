@@ -788,6 +788,14 @@ function buildStitching(
 
 /* ------------------------------------------------------------------ */
 
+/** Sheen tint for cloth. Dark cloth gets a weaker white lift so black stays black. */
+function clothSheenColor(hex: string): THREE.Color {
+  const c = new THREE.Color(hex);
+  const hsl = { h: 0, s: 0, l: 0 };
+  c.getHSL(hsl);
+  return c.lerp(new THREE.Color(0xffffff), 0.06 + 0.26 * hsl.l);
+}
+
 export function buildBookModel(cfg: BookConfig): BookModel {
   const dims = computeDims(cfg);
   const group = new THREE.Group();
@@ -817,7 +825,7 @@ export function buildBookModel(cfg: BookConfig): BookModel {
     // fabric sheen: cloth fibres scatter light at grazing angles
     sheen: isLeather ? 0 : 0.4,
     sheenRoughness: 0.62,
-    sheenColor: new THREE.Color(cfg.coverColor).lerp(new THREE.Color(0xffffff), 0.32),
+    sheenColor: clothSheenColor(cfg.coverColor),
     envMapIntensity: isLeather ? 0.6 : 0.42,
   });
 
@@ -1025,9 +1033,7 @@ export function buildBookModel(cfg: BookConfig): BookModel {
 
       // cover color
       coverMat.color.set(next.coverColor);
-      coverMat.sheenColor
-        .set(next.coverColor)
-        .lerp(new THREE.Color(0xffffff), 0.32);
+      coverMat.sheenColor.copy(clothSheenColor(next.coverColor));
 
       // material kind swap
       if (next.material !== matKind) {

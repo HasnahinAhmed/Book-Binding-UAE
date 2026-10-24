@@ -27,12 +27,12 @@ There is no existing repository, and neither demo is a sound production base (De
 
 Status: ☐ not started · ◐ in progress · ☑ done
 
-1. ◐ **Foundation & security** — scaffold, strict TS, ESLint, env validation, security headers/CSP, design tokens, fonts, EN/AR routing + RTL, header/footer/mobile nav, WhatsApp button, pricing engine + unit tests from confirmed catalogue data, optimized real images.
-2. ☐ **Design system & shared components** — buttons, inputs, selects, cards, badges, dialogs, toasts, price breakdown component, skeletons, focus states.
-3. ☐ **Homepage & catalogue pages** — hero with real photos, four category cards (Regular hardcover, Custom design, PU leather, Luxury book + box — **pending owner approval**), product detail pages, How it works, FAQ (only verified answers), contact.
-4. ☐ **Quick order** — per-category simple options, live breakdown (cover vs printing separated), add to cart.
-5. ☐ **3D thesis configurator** — port Demo 1 engine; steps; English/Arabic cover preview toggle (LTR vs RTL binding + bilingual text); mobile sticky preview 40–50% height; WebGL fallback.
-6. ☐ **Server pricing, secure PDF upload** — private storage, magic-byte + size checks, server page count, authoritative quote API.
+1. ☑ **Foundation & security** — scaffold, strict TS, ESLint, env validation, security headers/CSP, design tokens, fonts, EN/AR routing + RTL, header/footer/mobile nav, WhatsApp button, pricing engine + unit tests from confirmed catalogue data, optimized real images.
+2. ☑ **Design system & shared components** — buttons, inputs, selects, cards, badges, dialogs, toasts, price breakdown component, skeletons, focus states.
+3. ☑ **Homepage & catalogue pages** — hero with real photos, four category cards (Regular hardcover, Custom design, PU leather, Luxury book + box — **pending owner approval**), product detail pages, How it works, FAQ (only verified answers), contact.
+4. ☑ **Quick order** — per-category simple options, live breakdown (cover vs printing separated), add to cart.
+5. ☑ **3D thesis configurator** — port Demo 1 engine; steps; English/Arabic cover preview toggle (LTR vs RTL binding + bilingual text); mobile sticky preview 40–50% height; WebGL fallback.
+6. ◐ **Server pricing, secure PDF upload** — private storage, magic-byte + size checks, server page count, authoritative quote API.
 7. ☐ **Accounts, cart, checkout, orders** — Better Auth, order history, order detail timeline, saved designs.
 8. ☐ **Payments, delivery, WhatsApp** — provider adapter + verified webhook (blocked on provider choice/keys), delivery options (blocked on fees), WhatsApp order hand-off.
 9. ☐ **Admin** — role-protected: orders/status, products & prices (confirm unconfirmed prices), universities (directory + requirement records with source/verified flag), content, audit log.
