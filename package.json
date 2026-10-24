@@ -16,7 +16,8 @@
     "db:migrate": "node --env-file-if-exists=.env.local scripts/migrate.mjs",
     "test:db": "node --env-file-if-exists=.env.test.local node_modules/vitest/vitest.mjs run",
     "user:role": "node --env-file-if-exists=.env.local scripts/set-role.mjs",
-    "uploads:cleanup": "node --env-file-if-exists=.env.local scripts/cleanup-uploads.mjs"
+    "uploads:cleanup": "node --env-file-if-exists=.env.local scripts/cleanup-uploads.mjs",
+    "test:e2e": "playwright test"
   },
   "dependencies": {
     "@fontsource/noto-naskh-arabic": "5.3.0",
@@ -38,6 +39,7 @@
     "zod": "4.6.7"
   },
   "devDependencies": {
+    "@playwright/test": "1.63.0",
     "@tailwindcss/postcss": "4.3.3",
     "@types/node": "26.6.5",
     "@types/react": "19.3.0",
@@ -51,5 +53,8 @@
     "tailwindcss": "4.3.3",
     "typescript": "6.0.3",
     "vitest": "5.0.5"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

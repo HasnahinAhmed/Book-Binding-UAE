@@ -63,7 +63,10 @@ Status: ☐ not started · ◐ in progress · ☑ done
    - SEO: per-page titles/descriptions, canonical + hreflang (en/ar/x-default), `sitemap.xml`, `robots.txt` (private areas disallowed, private pages also `noindex`), Organization and Product structured data (confirmed facts and catalogue prices only), localised 404.
    - Accessibility: axe-core scan (WCAG 2.1 AA + best practice) on 10 key pages in both languages is clean after darkening the WhatsApp green (5.4:1).
    - Performance (mobile, throttled, local server): LCP ≈ 0.6–0.7 s home/product, ≈ 1.4 s builder; CLS ≤ 0.003 everywhere. Three.js (≈620 KB) loads only on the builder; header no longer loads the validation library (−100 KB JS on every page).
-11. ☐ **Tests, security review, production build, deployment docs.**
+11. ☑ **Tests, security review, production build, deployment docs.**
+   - 68 unit/integration tests (13 against a real Postgres), 8 Playwright end-to-end tests (desktop + mobile: build → upload → sign up → checkout → order page; Arabic RTL; protected areas; security headers).
+   - Security review: role escalation blocked, cross-site requests refused, secrets absent from browser bundles, webhook forgery rejected. See `docs/SECURITY.md`.
+   - `README.md`, `docs/DEPLOYMENT.md` (hosting, env, Stripe, first admin).
 
 ## Blockers / decisions needed from owner
 

@@ -10,3 +10,5 @@ next-env.d.ts
 # private customer uploads (dev storage) — never commit
 storage/
 .DS_Store
+test-results/
+playwright-report/
