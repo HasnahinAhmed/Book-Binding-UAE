@@ -13,10 +13,13 @@ import { currentSession } from "@/lib/auth";
 import type { Design } from "@/lib/cart/schema";
 import { cn } from "@/lib/cn";
 import { getOrderForUser } from "@/lib/orders/queries";
+import { isPayable } from "@/lib/payments/stripe-flow";
+import { serverEnv } from "@/lib/server/env";
+import { PayButton } from "@/components/account/pay-button";
 import { formatAED } from "@/lib/pricing/money";
 import type { QuoteRequest } from "@/lib/quote/server-quote";
 
-type Props = { params: Promise<{ locale: string; number: string }>; searchParams: Promise<{ placed?: string }> };
+type Props = { params: Promise<{ locale: string; number: string }>; searchParams: Promise<{ placed?: string; paid?: string }> };
 
 const FLOW = ["submitted", "confirmed", "in_production", "ready", "completed"] as const;
 
@@ -34,7 +37,11 @@ export default async function OrderPage({ params, searchParams }: Props) {
   const data = await getOrderForUser(db, session.user.id, number);
   if (!data) notFound();
   const { order, items, events, files } = data;
-  const placed = (await searchParams).placed === "1";
+  const sp = await searchParams;
+  const placed = sp.placed === "1";
+  const justPaid = sp.paid === "1" && order.paymentStatus !== "paid";
+  const payable = isPayable(order).ok;
+  const notes = events.filter((e) => e.note);
 
   const t = await getTranslations();
   const format = await getFormatter();
@@ -129,6 +136,17 @@ export default async function OrderPage({ params, searchParams }: Props) {
         </div>
 
         <aside className="min-w-0 space-y-8">
+          {justPaid && (
+            <p role="status" className="rounded-2xl bg-success-bg p-4 text-sm text-navy-950 ring-1 ring-green-200">
+              {t("orderPage.paidThanks")}
+            </p>
+          )}
+          {payable && !justPaid && (
+            <section className="space-y-3 rounded-2xl bg-brand-50 p-5 ring-1 ring-brand-200">
+              <p className="font-medium text-navy-950">{serverEnv.paymentsEnabled ? t("orderPage.payNext") : t("orderPage.payLater")}</p>
+              {serverEnv.paymentsEnabled && <PayButton number={order.number} amount={formatAED(order.total, locale)} />}
+            </section>
+          )}
           <section aria-labelledby="progress-h">
             <h2 id="progress-h" className="text-lg font-semibold text-navy-950">
               {t("orderPage.progress")}
@@ -168,6 +186,23 @@ export default async function OrderPage({ params, searchParams }: Props) {
             )}
           </section>
 
+          {notes.length > 0 && (
+            <section aria-labelledby="updates-h">
+              <h2 id="updates-h" className="text-lg font-semibold text-navy-950">
+                {t("orderPage.updates")}
+              </h2>
+              <ul className="mt-3 space-y-3">
+                {notes.map((e, i) => (
+                  <li key={i} className="text-sm">
+                    <p className="whitespace-pre-line text-navy-950" dir="auto">
+                      {e.note === "payment_received" ? t("orderPage.payment_received") : e.note}
+                    </p>
+                    <p className="text-xs text-ink-subtle">{when(e.createdAt)}</p>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
           <section aria-labelledby="details-h" className="space-y-4 rounded-2xl p-5 ring-1 ring-line">
             <h2 id="details-h" className="sr-only">
               {t("orderPage.contact")}

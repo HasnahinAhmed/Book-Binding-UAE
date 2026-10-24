@@ -11,6 +11,8 @@ const schema = z.object({
   TRUST_PROXY: z.enum(["0", "1"]).default("0"),
   DATABASE_URL: z.string().regex(/^postgres(ql)?:\/\//).optional(),
   BETTER_AUTH_SECRET: z.string().min(32).optional(),
+  STRIPE_SECRET_KEY: z.string().regex(/^(sk|rk)_(test|live)_/).optional(),
+  STRIPE_WEBHOOK_SECRET: z.string().startsWith("whsec_").optional(),
 });
 
 const env = schema.parse({
@@ -20,13 +22,19 @@ const env = schema.parse({
   TRUST_PROXY: process.env.TRUST_PROXY || undefined,
   DATABASE_URL: process.env.DATABASE_URL || undefined,
   BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET || undefined,
+  STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY || undefined,
+  STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET || undefined,
 });
 
 export const serverEnv = {
   storageDriver: env.STORAGE_DRIVER,
-  storageLocalDir: path.resolve(process.cwd(), env.STORAGE_LOCAL_DIR),
+  storageLocalDir: path.resolve(/*turbopackIgnore: true*/ process.cwd(), env.STORAGE_LOCAL_DIR),
   uploadMaxBytes: env.UPLOAD_MAX_MB * 1024 * 1024,
   trustProxy: env.TRUST_PROXY === "1",
   databaseUrl: env.DATABASE_URL,
   authSecret: env.BETTER_AUTH_SECRET,
+  stripeSecretKey: env.STRIPE_SECRET_KEY,
+  stripeWebhookSecret: env.STRIPE_WEBHOOK_SECRET,
+  /** online card payments are on only when both Stripe keys are set */
+  paymentsEnabled: Boolean(env.STRIPE_SECRET_KEY && env.STRIPE_WEBHOOK_SECRET),
 } as const;

@@ -467,7 +467,15 @@
     "goods": "Products",
     "delivery": "Delivery",
     "total": "Total so far",
-    "note": "Your note"
+    "note": "Your note",
+    "pay": "Pay {amount}",
+    "payMethods": "Card, Apple Pay or Google Pay. Secure payment by Stripe.",
+    "payError": "We couldn't start the payment. Please try again or message us on WhatsApp.",
+    "payNext": "Your order is confirmed. You can pay online now.",
+    "payLater": "We will send you payment details on WhatsApp.",
+    "paidThanks": "Thank you. Your payment is being confirmed. This page updates once it is received.",
+    "updates": "Updates",
+    "payment_received": "Payment received"
   },
   "orderStatus": {
     "submitted": "Order received",

@@ -242,3 +242,37 @@ export const auditLog = pgTable(
   },
   (t) => [index("audit_log_entity_idx").on(t.entity, t.entityId), index("audit_log_created_idx").on(t.createdAt)],
 );
+
+/* ------------------------------------------------------------------ */
+/* Online payments (provider-agnostic record of each attempt)         */
+/* ------------------------------------------------------------------ */
+
+export const paymentAttemptStatus = pgEnum("payment_attempt_status", ["open", "paid", "expired", "failed"]);
+
+export const payments = pgTable(
+  "payments",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    orderId: uuid("order_id")
+      .notNull()
+      .references(() => orders.id, { onDelete: "restrict" }),
+    provider: text("provider").notNull(),
+    /** e.g. Stripe Checkout Session id */
+    providerRef: text("provider_ref").notNull().unique(),
+    /** fils, fixed when the attempt was created */
+    amount: integer("amount").notNull(),
+    currency: text("currency").notNull(),
+    status: paymentAttemptStatus("status").notNull().default("open"),
+    createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+    updatedAt: timestamp("updated_at", { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [index("payments_order_idx").on(t.orderId)],
+);
+
+/** Webhook events already handled, so a re-delivered event is ignored. */
+export const webhookEvents = pgTable("webhook_events", {
+  id: text("id").primaryKey(),
+  provider: text("provider").notNull(),
+  type: text("type").notNull(),
+  receivedAt: timestamp("received_at", { withTimezone: true }).notNull().defaultNow(),
+});

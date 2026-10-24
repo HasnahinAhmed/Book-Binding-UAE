@@ -65,6 +65,7 @@ describe("normalisePhone", () => {
 describe.skipIf(!db)("createOrder (database)", () => {
   beforeAll(async () => {
     await db!.execute(sql`DROP SCHEMA IF EXISTS public CASCADE; CREATE SCHEMA public; DROP SCHEMA IF EXISTS drizzle CASCADE;`);
+    await db!.execute(sql`DROP SCHEMA IF EXISTS drizzle CASCADE`);
     await migrate(db!, { migrationsFolder: "./drizzle" });
     await db!.insert(schema.user).values([
       { id: alice.id, name: "Alice", email: alice.email },

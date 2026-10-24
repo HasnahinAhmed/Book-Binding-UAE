@@ -185,7 +185,7 @@ export default async function AdminOrderPage({ params }: Props) {
                   </p>
                   {e.note && (
                     <p className="text-ink-muted whitespace-pre-line" dir="auto">
-                      {e.note}
+                      {e.note === "payment_received" ? t("orderPage.payment_received") : e.note}
                     </p>
                   )}
                   <p className="text-xs text-ink-subtle">

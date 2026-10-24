@@ -46,7 +46,12 @@ Status: ☐ not started · ◐ in progress · ☑ done
    - Account page (orders, saved designs), order page with progress timeline and WhatsApp follow-up, builder "Save design" and `?design=` reopen.
    - Tests: 57 (incl. 7 against a real Postgres via `npm run test:db`).
    - Not possible yet: email verification and password-reset emails (no email provider chosen); WhatsApp help shown instead. Unattached uploads cleanup job still to add (M9/M11).
-8. ☐ **Payments, delivery, WhatsApp** — provider adapter + verified webhook (blocked on provider choice/keys), delivery options (blocked on fees), WhatsApp order hand-off.
+8. ◐ **Payments, delivery, WhatsApp** — Stripe built; go-live blocked on keys. Delivery fees set per order by staff until a fee table is confirmed.
+   - Flow: order request → staff confirm and set delivery fee → customer sees **Pay** on the order page → Stripe Checkout (cards, Apple Pay, Google Pay; AED) → signature-verified webhook marks the order paid only if the amount matches the order total. Re-delivered events are ignored (`webhook_events`), older open sessions are expired when a new one starts, every step is audit-logged.
+   - Off unless `STRIPE_SECRET_KEY` and `STRIPE_WEBHOOK_SECRET` are set; customers then see "We will send you payment details on WhatsApp".
+   - To go live: create a Stripe account, add the two keys, add the webhook endpoint `/api/payments/stripe/webhook` with the four `checkout.session.*` events listed in `.env.example`.
+   - PayPal: not added. PayPal does not support AED; it would charge in USD. Awaiting owner decision.
+   - WhatsApp hand-off: product pages, builder, order page and admin all link to WhatsApp with the order details.
 9. ☑ **Admin** (first version) — `/admin`, staff/admin only (others get 404).
    - Orders list with status filter and search; order page with full cover text, customer contact + WhatsApp, PDF download (staff-only, logged), timeline, audit log.
    - Actions: move status (allowed steps only, optional customer note), set delivery fee (updates total), record a payment received offline (internal note required), add internal or public notes. Every action is transactional with an audit entry.
