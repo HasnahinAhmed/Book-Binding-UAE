@@ -47,7 +47,12 @@ Status: ☐ not started · ◐ in progress · ☑ done
    - Tests: 57 (incl. 7 against a real Postgres via `npm run test:db`).
    - Not possible yet: email verification and password-reset emails (no email provider chosen); WhatsApp help shown instead. Unattached uploads cleanup job still to add (M9/M11).
 8. ☐ **Payments, delivery, WhatsApp** — provider adapter + verified webhook (blocked on provider choice/keys), delivery options (blocked on fees), WhatsApp order hand-off.
-9. ☐ **Admin** — role-protected: orders/status, products & prices (confirm unconfirmed prices), universities (directory + requirement records with source/verified flag), content, audit log.
+9. ☑ **Admin** (first version) — `/admin`, staff/admin only (others get 404).
+   - Orders list with status filter and search; order page with full cover text, customer contact + WhatsApp, PDF download (staff-only, logged), timeline, audit log.
+   - Actions: move status (allowed steps only, optional customer note), set delivery fee (updates total), record a payment received offline (internal note required), add internal or public notes. Every action is transactional with an audit entry.
+   - Prices: read-only view of catalogue prices and their source. Editing prices in admin needs a database price table (not built; prices are confirmed and change rarely).
+   - `npm run uploads:cleanup` removes unattached uploads after 7 days; uploads attached to an order can't be deleted by the customer.
+   - Not built: universities directory (no verified requirement data exists), content editing.
 10. ☐ **Arabic completeness, SEO, a11y, performance** — full translation pass, metadata/sitemap/robots, Lighthouse.
 11. ☐ **Tests, security review, production build, deployment docs.**
 
@@ -59,7 +64,7 @@ Status: ☐ not started · ◐ in progress · ☑ done
 | ~~D2~~ | Resolved: full catalogue confirms all prices | — |
 | D3 | Luxury Box bundle and minimum (PRICING_RULES P6) | Box pricing |
 | ~~D4~~ | Resolved: +971 52 529 4086 | — |
-| D5 | Payment provider + account | Milestone 8 |
+| D5 | Payment provider: **Stripe chosen** (Apple Pay, Google Pay, cards). PayPal does not support AED; awaiting owner decision. Needs Stripe keys | Milestone 8 go-live |
 | D6 | Delivery fees/areas, collection address, VAT | Milestone 8 |
 | D7 | Upload formats and max size | Built with PDF only, 50 MB (configurable). Confirm or change |
 | D8 | GitHub repository to push to | Saving work outside the session |

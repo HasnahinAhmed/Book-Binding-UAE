@@ -12,6 +12,7 @@ import type { StoredFileMeta } from "@/lib/storage/types";
 import { normalisePhone } from "./checkout-schema";
 import { createOrder } from "./create";
 import { getOrderForUser, listOrdersForUser } from "./queries";
+import { applyAdminAction, getOrderForStaff, listOrdersForStaff } from "@/lib/admin/orders";
 
 const url = process.env.TEST_DATABASE_URL;
 const client = url ? postgres(url, { max: 2, onnotice: () => {} }) : null;
@@ -119,5 +120,30 @@ describe.skipIf(!db)("createOrder (database)", () => {
       items: [{ request: { productId: "leather", quantity: 1, coverColorId: "acero", foilTone: "gold" }, design: null }],
     });
     expect(await createOrder(db!, bob, leather, findUpload)).toMatchObject({ ok: false, code: "item_invalid" });
+  });
+
+  it("staff move an order forward, set delivery and record payment, with audit trail", async () => {
+    const [o] = await db!.select().from(schema.orders).where(eq(schema.orders.userId, alice.id));
+    const staff = { id: bob.id };
+    expect(await applyAdminAction(db!, staff, o!.id, { action: "status", status: "completed" })).toEqual({ ok: false, code: "invalid_transition" });
+    expect(await applyAdminAction(db!, staff, o!.id, { action: "status", status: "confirmed", note: "Cover text checked" })).toEqual({ ok: true });
+    expect(await applyAdminAction(db!, staff, o!.id, { action: "delivery_fee", fee: 2500 })).toEqual({ ok: true });
+    expect(await applyAdminAction(db!, staff, o!.id, { action: "payment", status: "paid", note: "Bank transfer ref 123" })).toEqual({ ok: true });
+    expect(await applyAdminAction(db!, staff, o!.id, { action: "payment", status: "paid" })).toEqual({ ok: false, code: "invalid_input" });
+
+    const full = await getOrderForStaff(db!, o!.number);
+    expect(full?.order.total).toBe(24000 + 2500);
+    expect(full?.order.paymentStatus).toBe("paid");
+    expect(full?.audit.map((a) => a.action).sort()).toEqual(["order.delivery_fee", "order.payment_recorded", "order.status"]);
+    // the payment note is internal: customers only see public events
+    const customerView = await getOrderForUser(db!, alice.id, o!.number);
+    expect(customerView?.events.map((e) => e.status)).toEqual(["submitted", "confirmed"]);
+    expect(customerView?.events.some((e) => e.note?.includes("Bank"))).toBe(false);
+  });
+
+  it("searches orders safely", async () => {
+    expect(await listOrdersForStaff(db!, { q: "alice@" })).toHaveLength(1);
+    expect(await listOrdersForStaff(db!, { q: "%" })).toHaveLength(0);
+    expect(await listOrdersForStaff(db!, { status: "confirmed" })).toHaveLength(1);
   });
 });

@@ -15,7 +15,8 @@
     "db:generate": "drizzle-kit generate",
     "db:migrate": "node --env-file-if-exists=.env.local scripts/migrate.mjs",
     "test:db": "node --env-file-if-exists=.env.test.local node_modules/vitest/vitest.mjs run",
-    "user:role": "node --env-file-if-exists=.env.local scripts/set-role.mjs"
+    "user:role": "node --env-file-if-exists=.env.local scripts/set-role.mjs",
+    "uploads:cleanup": "node --env-file-if-exists=.env.local scripts/cleanup-uploads.mjs"
   },
   "dependencies": {
     "@fontsource/noto-naskh-arabic": "5.3.0",

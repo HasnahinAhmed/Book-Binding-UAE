@@ -1,5 +1,5 @@
 import "server-only";
-import { auth } from "@/lib/auth";
+import { auth, roleOf } from "@/lib/auth";
 import { serverEnv } from "@/lib/server/env";
 import type { RateLimiter } from "@/lib/security/rate-limit";
 import { BodyTooLargeError, clientIp, isSameOrigin, jsonError, readBodyLimited } from "@/lib/security/request";
@@ -27,4 +27,11 @@ export async function guardJson(
 
 export async function sessionFrom(req: Request) {
   return auth.api.getSession({ headers: req.headers });
+}
+
+/** Session of a staff or admin user, or null. */
+export async function staffFrom(req: Request) {
+  const session = await sessionFrom(req);
+  const role = roleOf(session);
+  return session && (role === "staff" || role === "admin") ? session : null;
 }
