@@ -16,6 +16,7 @@ import {
   type ProductId,
 } from "@/lib/pricing/catalog";
 import type { QuoteInput } from "@/lib/pricing/quote";
+import type { QuoteRequest } from "@/lib/quote/server-quote";
 
 export type CoverLanguage = "en" | "ar" | "both";
 export type BindingDirection = "auto" | "ltr" | "rtl";
@@ -43,12 +44,20 @@ export interface ConfiguratorState {
   corners: CornerOption;
   spinePrinting: boolean;
   quantity: number;
-  printing: { enabled: boolean; pages: number; paper: PaperId; mode: PrintMode };
+  printing: { enabled: boolean; pages: number; paper: PaperId; mode: PrintMode; upload: UploadedPdf | null };
   language: CoverLanguage;
   direction: BindingDirection;
   text: CoverText;
   /** client-only data URL of an uploaded logo (never sent to the server) */
   logoDataUrl: string;
+}
+
+/** A PDF stored privately on the server; `pages` was counted by the server. */
+export interface UploadedPdf {
+  id: string;
+  name: string;
+  pages: number;
+  sizeBytes: number;
 }
 
 export const EMPTY_TEXT: CoverText = coverTextSchema.parse({});
@@ -63,7 +72,7 @@ export function initialState(productId: ProductId = "regular"): ConfiguratorStat
     corners: "none",
     spinePrinting: false,
     quantity: p.minQty,
-    printing: { enabled: true, pages: 120, paper: "80gsm", mode: "bw" },
+    printing: { enabled: true, pages: 120, paper: "80gsm", mode: "bw", upload: null },
     language: "en",
     direction: "auto",
     text: EMPTY_TEXT,
@@ -99,7 +108,31 @@ export function toQuoteInput(s: ConfiguratorState): QuoteInput {
     foilTone: s.foilTone,
     spinePrinting: s.spinePrinting,
     corners: s.corners,
-    printing: s.printing.enabled ? { pages: s.printing.pages, paper: s.printing.paper, mode: s.printing.mode } : null,
+    printing: s.printing.enabled
+      ? {
+          pages: s.printing.upload?.pages ?? s.printing.pages,
+          paper: s.printing.paper,
+          mode: s.printing.mode,
+          pageCountSource: s.printing.upload ? "pdf" : "estimate",
+        }
+      : null,
+  };
+}
+
+/** What the browser sends to /api/quote: choices and an upload id, never prices or page-count claims. */
+export function toQuoteRequest(s: ConfiguratorState): QuoteRequest {
+  const { printing: _p, ...rest } = toQuoteInput(s);
+  void _p;
+  return {
+    ...rest,
+    printing: s.printing.enabled
+      ? {
+          pages: s.printing.upload?.pages ?? s.printing.pages,
+          paper: s.printing.paper,
+          mode: s.printing.mode,
+          ...(s.printing.upload ? { uploadId: s.printing.upload.id } : {}),
+        }
+      : null,
   };
 }
 
@@ -119,7 +152,7 @@ export function toBookConfig(s: ConfiguratorState, opts: { mobile: boolean }): B
     return v || (SAMPLE_TEXT[lang][key] ?? "");
   };
   const textHex = FOIL_COLORS[s.foilTone ?? "gold"].hex;
-  const pages = s.printing.enabled ? s.printing.pages : 120;
+  const pages = s.printing.enabled ? (s.printing.upload?.pages ?? s.printing.pages) : 120;
 
   return {
     ...DEFAULT_CONFIG,

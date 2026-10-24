@@ -3,7 +3,7 @@
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { AlertCircle, ArrowLeft, ArrowRight, Check, ImagePlus, RotateCcw, X } from "lucide-react";
+import { AlertCircle, ArrowLeft, ArrowRight, Check, ImagePlus, RotateCcw, ShieldCheck, X } from "lucide-react";
 import { ADDONS, PRODUCTS, PRODUCT_ORDER, type Product, type ProductId } from "@/lib/pricing/catalog";
 import { calculateQuote, quoteInputSchema } from "@/lib/pricing/quote";
 import { formatAED } from "@/lib/pricing/money";
@@ -14,6 +14,7 @@ import {
   switchProduct,
   toBookConfig,
   toQuoteInput,
+  toQuoteRequest,
   type ConfiguratorState,
   type CoverText,
 } from "@/lib/configurator/state";
@@ -27,6 +28,8 @@ import { WhatsAppIcon } from "@/components/icons/whatsapp";
 import { PriceBreakdown } from "@/components/product/price-breakdown";
 import { BookPreview } from "./book-preview";
 import { useMobilePreview } from "./use-mobile-preview";
+import { PdfUpload } from "./pdf-upload";
+import { useServerQuote } from "./use-server-quote";
 
 const STEPS = ["product", "cover", "text", "printing", "review"] as const;
 type Step = (typeof STEPS)[number];
@@ -41,7 +44,7 @@ function loadDraft(initialProduct: ProductId): ConfiguratorState {
     const d = JSON.parse(raw) as Partial<ConfiguratorState>;
     if (!d || typeof d !== "object" || !d.productId || !(d.productId in PRODUCTS)) return base;
     // A product chosen in the URL wins over the saved draft's product.
-    const merged = { ...base, ...d, logoDataUrl: "" } as ConfiguratorState;
+    const merged = { ...base, ...d, printing: { ...base.printing, ...d.printing }, logoDataUrl: "" } as ConfiguratorState;
     const s = merged.productId === initialProduct ? merged : switchProduct(merged, initialProduct);
     return calculateQuote(toQuoteInput(s)).ok ? s : base;
   } catch {
@@ -83,6 +86,9 @@ export function Configurator({ initialProduct, productFromUrl }: { initialProduc
   const product = PRODUCTS[state.productId];
   const bookCfg = useMemo(() => toBookConfig(state, { mobile: isMobile }), [state, isMobile]);
   const quote = calculateQuote(toQuoteInput(state));
+  const server = useServerQuote(toQuoteRequest(state), step === "review" && quote.ok, () =>
+    setState((s) => ({ ...s, printing: { ...s.printing, upload: null } })),
+  );
   const update = (patch: Partial<ConfiguratorState>) => setState((s) => ({ ...s, ...patch }));
   const updateText = (patch: Partial<CoverText>) => setState((s) => ({ ...s, text: { ...s.text, ...patch } }));
 
@@ -104,8 +110,11 @@ export function Configurator({ initialProduct, productFromUrl }: { initialProduc
             product,
             productName: t(`products.${product.id}.name`),
             input: quoteInputSchema.parse(toQuoteInput(state)),
-            quote: quote.quote,
+            quote: server.status === "ok" ? server.quote : quote.quote,
           }),
+          ...(state.printing.enabled && state.printing.upload
+            ? [t("order.wa.pdf", { name: state.printing.upload.name, ref: state.printing.upload.id.slice(0, 8) })]
+            : []),
           ...coverTextLines(state, (k, v) => t(k, v)),
         ].join("\n"),
       )
@@ -191,7 +200,21 @@ export function Configurator({ initialProduct, productFromUrl }: { initialProduc
               <div className="space-y-6">
                 <Summary state={state} product={product} />
                 {quote.ok ? (
-                  <PriceBreakdown quote={quote.quote} />
+                  <div className="space-y-2">
+                    <PriceBreakdown quote={server.status === "ok" ? server.quote : quote.quote} />
+                    <p className="flex items-center gap-1.5 text-sm text-ink-subtle" aria-live="polite">
+                      {server.status === "ok" ? (
+                        <>
+                          <ShieldCheck className="size-4 text-success" aria-hidden="true" />
+                          {t("builder.upload.checked")}
+                        </>
+                      ) : server.status === "loading" ? (
+                        t("builder.upload.checking")
+                      ) : server.status === "error" && server.code === "upload_not_found" ? (
+                        <span className="text-danger">{t("builder.upload.expired")}</span>
+                      ) : null}
+                    </p>
+                  </div>
                 ) : (
                   <QuoteErrorNote code={quote.error.code} min={quote.error.code === "below_minimum" ? quote.error.minQty : 0} />
                 )}
@@ -549,6 +572,7 @@ function PrintingStep({
           <Switch checked={p.enabled} onChange={(v) => setPrinting({ enabled: v })} label={t("order.printingToggle")} description={t("order.printingHelp")} />
           {p.enabled && (
             <>
+              <PdfUpload value={p.upload} onChange={(upload) => setPrinting({ upload, ...(upload ? { pages: upload.pages } : {}) })} />
               <div>
                 <label htmlFor={pagesId} className="font-medium text-navy-950">
                   {t("order.pages")}
@@ -559,14 +583,15 @@ function PrintingStep({
                   inputMode="numeric"
                   min={1}
                   max={2000}
-                  value={p.pages || ""}
-                  aria-invalid={p.pages < 1 || p.pages > 2000}
+                  value={(p.upload?.pages ?? p.pages) || ""}
+                  readOnly={!!p.upload}
+                  aria-invalid={!p.upload && (p.pages < 1 || p.pages > 2000)}
                   aria-describedby={`${pagesId}-help`}
                   onChange={(e) => setPrinting({ pages: e.target.value === "" ? 0 : Math.floor(Number(e.target.value)) })}
-                  className="ltr-value mt-2 block h-11 w-36 rounded-lg bg-white px-3 text-base tabular-nums text-navy-950 ring-1 ring-line focus:ring-2 focus:ring-brand-500 focus:outline-none aria-[invalid=true]:ring-danger"
+                  className="ltr-value mt-2 block h-11 w-36 rounded-lg bg-white px-3 read-only:bg-navy-50 read-only:text-ink-muted text-base tabular-nums text-navy-950 ring-1 ring-line focus:ring-2 focus:ring-brand-500 focus:outline-none aria-[invalid=true]:ring-danger"
                 />
                 <p id={`${pagesId}-help`} className="mt-1.5 text-sm text-ink-subtle">
-                  {t("order.pagesHelp")}
+                  {p.upload ? t("builder.upload.pagesLocked") : t("order.pagesHelp")}
                 </p>
               </div>
               <div className="flex flex-wrap gap-x-8 gap-y-4">

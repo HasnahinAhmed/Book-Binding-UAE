@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { calculateQuote } from "@/lib/pricing/quote";
-import { initialState, isRtl, switchProduct, toBookConfig, toQuoteInput } from "./state";
+import { initialState, isRtl, switchProduct, toBookConfig, toQuoteInput, toQuoteRequest } from "./state";
 
 describe("configurator state", () => {
   it("initial state of every product prices successfully", () => {
@@ -51,5 +51,16 @@ describe("configurator state", () => {
     const thick = toBookConfig({ ...s, printing: { ...s.printing, pages: 600 } }, { mobile: false });
     expect(thick.thickness).toBeGreaterThan(thin.thickness);
     expect(thick.thickness).toBeLessThanOrEqual(60);
+  });
+});
+
+describe("toQuoteRequest", () => {
+  it("sends the upload id and never a page-count claim", () => {
+    const s = initialState("regular");
+    s.printing = { ...s.printing, pages: 10, upload: { id: "AAAAAAAAAAAAAAAAAAAAAA", name: "t.pdf", pages: 240, sizeBytes: 1 } };
+    const r = toQuoteRequest(s);
+    expect(r.printing).toEqual({ pages: 240, paper: "80gsm", mode: "bw", uploadId: "AAAAAAAAAAAAAAAAAAAAAA" });
+    expect(JSON.stringify(r)).not.toContain("pageCountSource");
+    expect(toQuoteInput(s).printing?.pageCountSource).toBe("pdf");
   });
 });

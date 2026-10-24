@@ -32,7 +32,12 @@ Status: ☐ not started · ◐ in progress · ☑ done
 3. ☑ **Homepage & catalogue pages** — hero with real photos, four category cards (Regular hardcover, Custom design, PU leather, Luxury book + box — **pending owner approval**), product detail pages, How it works, FAQ (only verified answers), contact.
 4. ☑ **Quick order** — per-category simple options, live breakdown (cover vs printing separated), add to cart.
 5. ☑ **3D thesis configurator** — port Demo 1 engine; steps; English/Arabic cover preview toggle (LTR vs RTL binding + bilingual text); mobile sticky preview 40–50% height; WebGL fallback.
-6. ◐ **Server pricing, secure PDF upload** — private storage, magic-byte + size checks, server page count, authoritative quote API.
+6. ☑ **Server pricing, secure PDF upload** — private storage, magic-byte + size checks, server page count, authoritative quote API.
+   - `POST /api/quote`: strict schema (unknown keys such as a client total are rejected), page count taken from the uploaded file when an upload id is sent, 8 KB body cap, 120 req/min per visitor.
+   - `POST /api/uploads`: same-origin only, multipart, streamed size cap (`UPLOAD_MAX_MB`, default 50), `%PDF-` byte check, pdf-lib parse, password-protected files refused, 1–2,000 pages, 10 uploads / 10 min per visitor. Stored owner-only (0600) outside `public/` under a random 128-bit id; file names are display-only.
+   - `DELETE /api/uploads/:id`: lets the uploader remove the file.
+   - Builder: PDF upload with progress, page count locked to the server's count, review step shows the server-checked price.
+   - Follow-ups: link uploads to orders and delete unattached uploads after 7 days (M7); staff download via short-lived signed links (M9); S3/R2 driver for multi-server hosting; shared rate-limit store when running more than one instance.
 7. ☐ **Accounts, cart, checkout, orders** — Better Auth, order history, order detail timeline, saved designs.
 8. ☐ **Payments, delivery, WhatsApp** — provider adapter + verified webhook (blocked on provider choice/keys), delivery options (blocked on fees), WhatsApp order hand-off.
 9. ☐ **Admin** — role-protected: orders/status, products & prices (confirm unconfirmed prices), universities (directory + requirement records with source/verified flag), content, audit log.
@@ -49,6 +54,6 @@ Status: ☐ not started · ◐ in progress · ☑ done
 | ~~D4~~ | Resolved: +971 52 529 4086 | — |
 | D5 | Payment provider + account | Milestone 8 |
 | D6 | Delivery fees/areas, collection address, VAT | Milestone 8 |
-| D7 | Upload formats and max size | Milestone 6 (default proposal: PDF only, 50 MB) |
+| D7 | Upload formats and max size | Built with PDF only, 50 MB (configurable). Confirm or change |
 | D8 | GitHub repository to push to | Saving work outside the session |
 | D9 | Hosting (Vercel + managed Postgres + R2/S3 is the proposal) | Deployment |
