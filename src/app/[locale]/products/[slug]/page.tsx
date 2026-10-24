@@ -9,6 +9,8 @@ import { allProducts, productFromSlug, productSlug } from "@/lib/products";
 import { Badge } from "@/components/ui/badge";
 import { Gallery } from "@/components/product/gallery";
 import { QuickOrder } from "@/components/product/quick-order";
+import { JsonLd } from "@/components/seo/json-ld";
+import { site } from "@/config/site";
 
 type Params = { params: Promise<{ locale: string; slug: string }> };
 
@@ -48,6 +50,23 @@ export default async function ProductPage({ params }: Params) {
 
   return (
     <div className="container-page pt-6 pb-16 md:pt-10">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: t(`products.${product.id}.name`),
+          description: t(`products.${product.id}.desc`),
+          image: images.map((i) => `${site.url}${i.src}`),
+          brand: { "@type": "Brand", name: site.name },
+          offers: {
+            "@type": "AggregateOffer",
+            priceCurrency: "AED",
+            lowPrice: (Math.min(...product.tiers.map((x) => x.unitPrice)) / 100).toFixed(2),
+            highPrice: (Math.max(...product.tiers.map((x) => x.unitPrice)) / 100).toFixed(2),
+            url: `${site.url}/${locale}/products/${slug}`,
+          },
+        }}
+      />
       <Link href="/#products" className="inline-flex items-center gap-1.5 text-sm font-medium text-ink-muted hover:text-navy-900">
         <ArrowLeft className="size-4 rtl:rotate-180" aria-hidden="true" />
         {t("productPage.back")}

@@ -58,7 +58,11 @@ Status: ☐ not started · ◐ in progress · ☑ done
    - Prices: read-only view of catalogue prices and their source. Editing prices in admin needs a database price table (not built; prices are confirmed and change rarely).
    - `npm run uploads:cleanup` removes unattached uploads after 7 days; uploads attached to an order can't be deleted by the customer.
    - Not built: universities directory (no verified requirement data exists), content editing.
-10. ☐ **Arabic completeness, SEO, a11y, performance** — full translation pass, metadata/sitemap/robots, Lighthouse.
+10. ☑ **Arabic completeness, SEO, a11y, performance**
+   - Translations: a test fails if any Arabic key is missing or left in English (only the English cover-field examples are allowed).
+   - SEO: per-page titles/descriptions, canonical + hreflang (en/ar/x-default), `sitemap.xml`, `robots.txt` (private areas disallowed, private pages also `noindex`), Organization and Product structured data (confirmed facts and catalogue prices only), localised 404.
+   - Accessibility: axe-core scan (WCAG 2.1 AA + best practice) on 10 key pages in both languages is clean after darkening the WhatsApp green (5.4:1).
+   - Performance (mobile, throttled, local server): LCP ≈ 0.6–0.7 s home/product, ≈ 1.4 s builder; CLS ≤ 0.003 everywhere. Three.js (≈620 KB) loads only on the builder; header no longer loads the validation library (−100 KB JS on every page).
 11. ☐ **Tests, security review, production build, deployment docs.**
 
 ## Blockers / decisions needed from owner

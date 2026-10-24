@@ -1,21 +1,17 @@
-import { z } from "zod";
+// Public, non-secret business settings. Checked at startup so a typo in the
+// environment fails loudly instead of producing broken links. (No zod here:
+// this file is used by the header on every page, so it stays tiny.)
+function check(name: string, value: string | undefined, fallback: string, valid: (v: string) => boolean): string {
+  const v = value || fallback;
+  if (!valid(v)) throw new Error(`Invalid ${name}: ${v}`);
+  return v;
+}
 
-// Public, non-secret business settings. Validated at startup so a typo in
-// the environment fails loudly instead of producing broken links.
-const schema = z.object({
-  NEXT_PUBLIC_SITE_URL: z.url().default("http://localhost:3000"),
-  NEXT_PUBLIC_WHATSAPP_NUMBER: z
-    .string()
-    .regex(/^\d{8,15}$/, "digits only, with country code")
-    .default("971525294086"),
-  NEXT_PUBLIC_INSTAGRAM_HANDLE: z.string().regex(/^[A-Za-z0-9._]+$/).default("book_binding_uae"),
-});
-
-const env = schema.parse({
-  NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL || undefined,
-  NEXT_PUBLIC_WHATSAPP_NUMBER: process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || undefined,
-  NEXT_PUBLIC_INSTAGRAM_HANDLE: process.env.NEXT_PUBLIC_INSTAGRAM_HANDLE || undefined,
-});
+const env = {
+  NEXT_PUBLIC_SITE_URL: check("NEXT_PUBLIC_SITE_URL", process.env.NEXT_PUBLIC_SITE_URL, "http://localhost:3000", (v) => /^https?:\/\/[^\s/]+(:\d+)?$/.test(v)),
+  NEXT_PUBLIC_WHATSAPP_NUMBER: check("NEXT_PUBLIC_WHATSAPP_NUMBER", process.env.NEXT_PUBLIC_WHATSAPP_NUMBER, "971525294086", (v) => /^\d{8,15}$/.test(v)),
+  NEXT_PUBLIC_INSTAGRAM_HANDLE: check("NEXT_PUBLIC_INSTAGRAM_HANDLE", process.env.NEXT_PUBLIC_INSTAGRAM_HANDLE, "book_binding_uae", (v) => /^[A-Za-z0-9._]+$/.test(v)),
+};
 
 export const site = {
   name: "Book Binding UAE",

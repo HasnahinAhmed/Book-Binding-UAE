@@ -3,6 +3,7 @@ import { Inter, IBM_Plex_Sans_Arabic } from "next/font/google";
 import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { JsonLd } from "@/components/seo/json-ld";
 import { dirFor, routing } from "@/i18n/routing";
 import { site } from "@/config/site";
 import { SiteHeader } from "@/components/layout/site-header";
@@ -68,6 +69,18 @@ export default async function LocaleLayout({
         >
           {t("skip")}
         </a>
+        <JsonLd
+          data={{
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: site.name,
+            url: site.url,
+            logo: `${site.url}/images/logo-horizontal-960.webp`,
+            telephone: `+${site.whatsappNumber}`,
+            sameAs: [site.instagramUrl],
+            areaServed: "AE",
+          }}
+        />
         <NextIntlClientProvider>
           <SiteHeader />
           <main id="main" tabIndex={-1} className="outline-none">

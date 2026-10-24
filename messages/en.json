@@ -558,5 +558,11 @@
       "printing": "Interior printing per page",
       "addons": "Extras per book"
     }
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "The page you are looking for doesn't exist or has moved.",
+    "home": "Go to the homepage",
+    "builder": "Open 3D builder"
   }
 }

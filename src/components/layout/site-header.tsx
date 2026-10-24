@@ -9,7 +9,7 @@ import { whatsappLink } from "@/config/site";
 import { buttonClasses } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/icons/whatsapp";
 import { cn } from "@/lib/cn";
-import { useCart } from "@/lib/cart/store";
+import { useCartCount } from "@/lib/cart/count";
 import { LanguageSwitch } from "./language-switch";
 import { NAV_ITEMS } from "./nav-items";
 
@@ -51,7 +51,7 @@ export function SiteHeader() {
   }, [open]);
 
   const whatsapp = whatsappLink(t("cta.whatsappGreeting"));
-  const cartCount = useCart().length;
+  const cartCount = useCartCount();
   const iconBtn = "inline-flex size-10 items-center justify-center rounded-full text-navy-900 hover:bg-navy-50";
 
   return (

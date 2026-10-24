@@ -1,10 +1,9 @@
 "use client";
 
 import { useSyncExternalStore } from "react";
+import { CART_EVENT as EVENT, CART_KEY as KEY } from "./count";
 import { cartItemSchema, MAX_CART_ITEMS, type CartItem, type CartItemInput } from "./schema";
 
-const KEY = "bbu-cart-v1";
-const EVENT = "bbu-cart-change";
 const EMPTY: CartItem[] = [];
 
 let cache: { raw: string | null; items: CartItem[] } = { raw: null, items: EMPTY };
