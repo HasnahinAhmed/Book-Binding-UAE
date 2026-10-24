@@ -2,7 +2,7 @@
 // Originals are never modified. Usage:
 //   IMAGES_SRC=/path/to/originals npm run images
 // Output: public/images/<name>-<width>.webp (+ trimmed transparent padding)
-import { readdir, mkdir } from "node:fs/promises";
+import { readdir, mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 
@@ -11,6 +11,7 @@ const OUT = path.resolve("public/images");
 const WIDTHS = [480, 960, 1600];
 
 await mkdir(OUT, { recursive: true });
+const manifest = {};
 const files = (await readdir(SRC)).filter((f) => /\.(png|jpe?g)$/i.test(f));
 
 for (const file of files) {
@@ -27,8 +28,13 @@ for (const file of files) {
       .webp({ quality: 82, alphaQuality: 90, effort: 5 })
       .toFile(path.join(OUT, `${name}-${w}.webp`));
   }
+  const largest = [...WIDTHS].reverse().find((w) => !(meta.width && w > meta.width * 1.05 && w !== WIDTHS[0]));
+  const outW = Math.min(largest, meta.width);
+  manifest[name] = { src: `/images/${name}-${largest}.webp`, width: outW, height: Math.round((meta.height / meta.width) * outW) };
   console.log(`${name}: ${meta.width}x${meta.height}`);
 }
+
+await writeFile(path.resolve("src/lib/image-manifest.json"), JSON.stringify(manifest, null, 2) + "\n");
 
 // Favicon / app icons from the round logo mark.
 const mark = path.join(SRC, "logo-mark.png");
