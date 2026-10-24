@@ -21,11 +21,11 @@ export function PricingExplainer() {
 
   return (
     <section id="pricing" aria-labelledby="pricing-title" className="scroll-mt-20 bg-canvas py-20 md:py-28">
-      <div className="container-page grid gap-12 lg:grid-cols-2 lg:gap-16">
+      <div className="container-page grid gap-12 lg:grid-cols-2 lg:gap-16 [&>*]:min-w-0">
         <div>
           <SectionHeading id="pricing-title" eyebrow={t("printingEyebrow")} title={t("printingTitle")} lead={t("printingLead")} />
-          <div className="mt-10 overflow-hidden rounded-xl bg-white ring-1 ring-line" data-reveal>
-            <table className="w-full text-start">
+          <div className="mt-10 overflow-x-auto rounded-xl bg-white ring-1 ring-line" data-reveal>
+            <table className="w-full text-start text-[0.9375rem] [&_td]:px-3 [&_th]:px-3 sm:[&_td]:px-5 sm:[&_th]:px-5">
               <caption className="px-5 pt-4 pb-2 text-start text-sm font-semibold text-navy-950">{t("printingTable")}</caption>
               <thead>
                 <tr className="border-b border-line text-sm text-ink-subtle">

@@ -194,3 +194,30 @@ export function toBookConfig(s: ConfiguratorState, opts: { mobile: boolean }): B
     touchScroll: opts.mobile,
   };
 }
+
+/** Shape of a design saved to an account. The logo stays on the device. */
+export const savedStateSchema = z
+  .object({
+    productId: z.enum(["regular", "custom", "leather", "luxury-box"]),
+    coverColorId: z.string().max(40),
+    boxColorId: z.string().max(40).optional(),
+    foilTone: z.enum(["gold", "silver"]).optional(),
+    corners: z.enum(["none", "gold", "silver"]),
+    spinePrinting: z.boolean(),
+    quantity: z.number().int().min(1).max(LIMITS.maxQuantity),
+    printing: z.object({
+      enabled: z.boolean(),
+      pages: z.number().int().min(0).max(LIMITS.maxPages),
+      paper: z.enum(["80gsm", "120gsm"]),
+      mode: z.enum(["color", "bw"]),
+      upload: z
+        .object({ id: z.string().regex(/^[A-Za-z0-9_-]{22}$/), name: z.string().max(200), pages: z.number().int(), sizeBytes: z.number().int() })
+        .nullable()
+        .default(null),
+    }),
+    language: z.enum(["en", "ar", "both"]),
+    direction: z.enum(["auto", "ltr", "rtl"]),
+    text: coverTextSchema,
+  })
+  .strip();
+export type SavedState = z.output<typeof savedStateSchema>;

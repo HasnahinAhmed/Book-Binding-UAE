@@ -12,6 +12,7 @@ import { buttonClasses } from "@/components/ui/button";
 import { Fieldset, Segmented, Stepper, Switch, SwatchGroup } from "@/components/ui/form-controls";
 import { WhatsAppIcon } from "@/components/icons/whatsapp";
 import { PriceBreakdown } from "./price-breakdown";
+import { AddToCart } from "@/components/cart/add-to-cart";
 
 export function QuickOrder({ product }: { product: Product }) {
   const t = useTranslations();
@@ -196,13 +197,15 @@ export function QuickOrder({ product }: { product: Product }) {
         )}
       </div>
 
+      <AddToCart item={result.ok ? { request: input, design: null, upload: null } : null} />
+
       <div className="space-y-2">
         <a
           href={waHref}
           aria-disabled={!waHref}
           target="_blank"
           rel="noopener noreferrer"
-          className={buttonClasses("whatsapp", "lg", `w-full ${waHref ? "" : "pointer-events-none opacity-50"}`)}
+          className={buttonClasses("secondary", "lg", `w-full ${waHref ? "" : "pointer-events-none opacity-50"}`)}
         >
           <WhatsAppIcon className="size-5" />
           {t("order.sendWhatsapp")}

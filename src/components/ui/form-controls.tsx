@@ -105,8 +105,10 @@ export function Stepper({
   decLabel,
   incLabel,
   describedBy,
+  ariaLabel,
 }: {
   id: string;
+  ariaLabel?: string;
   value: number;
   min: number;
   max: number;
@@ -131,6 +133,7 @@ export function Stepper({
         max={max}
         value={value}
         aria-describedby={describedBy}
+        aria-label={ariaLabel}
         onChange={(e) => {
           const n = Number(e.target.value);
           if (Number.isFinite(n) && e.target.value !== "") onChange(clamp(n));

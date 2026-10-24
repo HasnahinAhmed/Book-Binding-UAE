@@ -3,12 +3,13 @@
 import { Suspense, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-import { Menu, X } from "lucide-react";
+import { Menu, ShoppingBag, UserRound, X } from "lucide-react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { whatsappLink } from "@/config/site";
 import { buttonClasses } from "@/components/ui/button";
 import { WhatsAppIcon } from "@/components/icons/whatsapp";
 import { cn } from "@/lib/cn";
+import { useCart } from "@/lib/cart/store";
 import { LanguageSwitch } from "./language-switch";
 import { NAV_ITEMS } from "./nav-items";
 
@@ -50,6 +51,8 @@ export function SiteHeader() {
   }, [open]);
 
   const whatsapp = whatsappLink(t("cta.whatsappGreeting"));
+  const cartCount = useCart().length;
+  const iconBtn = "inline-flex size-10 items-center justify-center rounded-full text-navy-900 hover:bg-navy-50";
 
   return (
     <header
@@ -90,14 +93,29 @@ export function SiteHeader() {
           <Suspense fallback={null}>
             <LanguageSwitch className="hidden sm:inline-flex" />
           </Suspense>
+          <Link href="/account" aria-label={t("nav.account")} className={cn(iconBtn, "max-sm:hidden")}>
+            <UserRound className="size-5" aria-hidden="true" />
+          </Link>
+          <Link href="/cart" aria-label={t("cart.count", { count: cartCount })} className={cn(iconBtn, "relative")}>
+            <ShoppingBag className="size-5" aria-hidden="true" />
+            {cartCount > 0 && (
+              <span
+                className="absolute -end-0.5 -top-0.5 flex min-w-5 items-center justify-center rounded-full bg-brand-500 px-1 text-[0.6875rem] leading-5 font-semibold text-white"
+                aria-hidden="true"
+              >
+                {cartCount}
+              </span>
+            )}
+          </Link>
           <a
             href={whatsapp}
             target="_blank"
             rel="noopener noreferrer"
-            className={buttonClasses("whatsapp", "sm", "hidden sm:inline-flex")}
+            aria-label={t("cta.whatsapp")}
+            className={buttonClasses("whatsapp", "sm", "max-sm:size-10 max-sm:px-0")}
           >
             <WhatsAppIcon className="size-4" />
-            {t("cta.whatsappShort")}
+            <span className="max-sm:hidden">{t("cta.whatsappShort")}</span>
           </a>
           <button
             ref={toggleRef}
@@ -133,6 +151,16 @@ export function SiteHeader() {
                 </Link>
               </li>
             ))}
+            <li className="sm:hidden">
+              <Link
+                href="/account"
+                onClick={() => setOpen(false)}
+                className="flex items-center gap-2 rounded-lg px-3 py-3 text-lg font-medium text-navy-900 hover:bg-navy-50"
+              >
+                <UserRound className="size-5" aria-hidden="true" />
+                {t("nav.account")}
+              </Link>
+            </li>
           </ul>
           <div className="mt-4 flex flex-col gap-3 border-t border-line pt-4">
             <a href={whatsapp} target="_blank" rel="noopener noreferrer" className={buttonClasses("whatsapp", "lg", "w-full")}>

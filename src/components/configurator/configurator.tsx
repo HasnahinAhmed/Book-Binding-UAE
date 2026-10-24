@@ -15,6 +15,7 @@ import {
   toBookConfig,
   toQuoteInput,
   toQuoteRequest,
+  savedStateSchema,
   type ConfiguratorState,
   type CoverText,
 } from "@/lib/configurator/state";
@@ -30,6 +31,8 @@ import { BookPreview } from "./book-preview";
 import { useMobilePreview } from "./use-mobile-preview";
 import { PdfUpload } from "./pdf-upload";
 import { useServerQuote } from "./use-server-quote";
+import { SaveDesign } from "./save-design";
+import { AddToCart } from "@/components/cart/add-to-cart";
 
 const STEPS = ["product", "cover", "text", "printing", "review"] as const;
 type Step = (typeof STEPS)[number];
@@ -52,7 +55,15 @@ function loadDraft(initialProduct: ProductId): ConfiguratorState {
   }
 }
 
-export function Configurator({ initialProduct, productFromUrl }: { initialProduct: ProductId; productFromUrl: boolean }) {
+export function Configurator({
+  initialProduct,
+  productFromUrl,
+  designId,
+}: {
+  initialProduct: ProductId;
+  productFromUrl: boolean;
+  designId?: string;
+}) {
   const t = useTranslations();
   const locale = useLocale();
   const { isMobile, keyboardOpen } = useMobilePreview();
@@ -63,11 +74,30 @@ export function Configurator({ initialProduct, productFromUrl }: { initialProduc
   const panelRef = useRef<HTMLDivElement>(null);
 
   // Restore a saved draft once on the client (localStorage is unavailable during SSR).
+  const [loadError, setLoadError] = useState(false);
   useEffect(() => {
+    if (designId) {
+      // Open a design saved to the customer's account.
+      const ac = new AbortController();
+      fetch(`/api/designs/${encodeURIComponent(designId)}`, { signal: ac.signal })
+        .then((r) => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+        .then((json: { design?: { state?: unknown } }) => {
+          const parsed = savedStateSchema.safeParse(json.design?.state);
+          if (!parsed.success) throw new Error("invalid");
+          const base = initialState(parsed.data.productId);
+          setState({ ...base, ...parsed.data, printing: { ...base.printing, ...parsed.data.printing } });
+          setStep("review");
+        })
+        .catch(() => {
+          if (!ac.signal.aborted) setLoadError(true);
+        })
+        .finally(() => setHydrated(true));
+      return () => ac.abort();
+    }
     // eslint-disable-next-line react-hooks/set-state-in-effect -- one-time client-only restore
     setState(loadDraft(initialProduct));
     setHydrated(true);
-  }, [initialProduct]);
+  }, [initialProduct, designId]);
 
   useEffect(() => {
     if (!hydrated) return;
@@ -121,6 +151,7 @@ export function Configurator({ initialProduct, productFromUrl }: { initialProduc
     : undefined;
 
   const previewSmall = compact || keyboardOpen;
+  const savable = savedStateSchema.safeParse(state);
   const fallbackImg = imageInfo(product.images.card);
 
   return (
@@ -187,6 +218,11 @@ export function Configurator({ initialProduct, productFromUrl }: { initialProduc
           className="mt-5 scroll-mt-[calc(4rem+26svh)] rounded-2xl outline-none lg:scroll-mt-24"
           aria-labelledby="builder-step-title"
         >
+          {loadError && (
+            <p role="alert" className="mb-4 rounded-xl bg-danger-bg px-4 py-3 text-sm text-danger">
+              {t("builder.save.loadError")}
+            </p>
+          )}
           <p className="text-sm text-ink-subtle">{t("builder.stepOf", { n: stepIndex + 1, total: STEPS.length })}</p>
           <h2 id="builder-step-title" className="mt-0.5 text-2xl font-semibold text-navy-950">
             {t(`builder.steps.${step}`)}
@@ -218,13 +254,25 @@ export function Configurator({ initialProduct, productFromUrl }: { initialProduc
                 ) : (
                   <QuoteErrorNote code={quote.error.code} min={quote.error.code === "below_minimum" ? quote.error.minQty : 0} />
                 )}
+                <AddToCart
+                  disabled={server.status === "error"}
+                  item={
+                    quote.ok
+                      ? {
+                          request: toQuoteRequest(state),
+                          design: { language: state.language, direction: state.direction, text: state.text, hasLogo: !!state.logoDataUrl },
+                          upload: state.printing.enabled ? state.printing.upload : null,
+                        }
+                      : null
+                  }
+                />
                 <div className="space-y-2">
                   <a
                     href={waHref}
                     aria-disabled={!waHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={buttonClasses("whatsapp", "lg", cn("w-full", !waHref && "pointer-events-none opacity-50"))}
+                    className={buttonClasses("secondary", "lg", cn("w-full", !waHref && "pointer-events-none opacity-50"))}
                   >
                     <WhatsAppIcon className="size-5" />
                     {t("order.sendWhatsapp")}
@@ -232,6 +280,12 @@ export function Configurator({ initialProduct, productFromUrl }: { initialProduc
                   <p className="text-sm text-ink-subtle">{t("order.whatsappNote")}</p>
                   <p className="text-sm text-ink-subtle">{t("builder.reviewNote")}</p>
                 </div>
+                {savable.success && (
+                  <SaveDesign
+                    state={savable.data}
+                    name={state.text.title.trim() || state.text.titleAr.trim() || t(`products.${product.id}.name`)}
+                  />
+                )}
                 <button
                   type="button"
                   onClick={() => {

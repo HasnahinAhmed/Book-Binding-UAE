@@ -38,7 +38,14 @@ Status: ☐ not started · ◐ in progress · ☑ done
    - `DELETE /api/uploads/:id`: lets the uploader remove the file.
    - Builder: PDF upload with progress, page count locked to the server's count, review step shows the server-checked price.
    - Follow-ups: link uploads to orders and delete unattached uploads after 7 days (M7); staff download via short-lived signed links (M9); S3/R2 driver for multi-server hosting; shared rate-limit store when running more than one instance.
-7. ☐ **Accounts, cart, checkout, orders** — Better Auth, order history, order detail timeline, saved designs.
+7. ☑ **Accounts, cart, checkout, orders** — Better Auth, order history, order detail timeline, saved designs.
+   - Postgres + Drizzle (`src/db/schema.ts`, migrations in `drizzle/`, `npm run db:migrate`). Tables: auth (user/session/account/verification/rate_limit), orders, order_items, order_events, order_files, saved_designs, audit_log.
+   - Better Auth email + password (10+ chars), database-backed rate limits (sign-in 8 / 5 min, sign-up 5 / hour), 14-day sessions, telemetry off. Roles customer / staff / admin; set only with `npm run user:role -- <email> <role>` (no default accounts).
+   - Cart lives in the browser and holds choices only; `/api/cart/price` re-prices every line on the server.
+   - Checkout requires sign-in and creates an **order request**: priced on the server, PDF attached by id (one order per file), delivery fee left "to be confirmed", payment status "unpaid". The page says clearly that no payment is taken. Double-submits return the same order.
+   - Account page (orders, saved designs), order page with progress timeline and WhatsApp follow-up, builder "Save design" and `?design=` reopen.
+   - Tests: 57 (incl. 7 against a real Postgres via `npm run test:db`).
+   - Not possible yet: email verification and password-reset emails (no email provider chosen); WhatsApp help shown instead. Unattached uploads cleanup job still to add (M9/M11).
 8. ☐ **Payments, delivery, WhatsApp** — provider adapter + verified webhook (blocked on provider choice/keys), delivery options (blocked on fees), WhatsApp order hand-off.
 9. ☐ **Admin** — role-protected: orders/status, products & prices (confirm unconfirmed prices), universities (directory + requirement records with source/verified flag), content, audit log.
 10. ☐ **Arabic completeness, SEO, a11y, performance** — full translation pass, metadata/sitemap/robots, Lighthouse.
@@ -56,4 +63,5 @@ Status: ☐ not started · ◐ in progress · ☑ done
 | D6 | Delivery fees/areas, collection address, VAT | Milestone 8 |
 | D7 | Upload formats and max size | Built with PDF only, 50 MB (configurable). Confirm or change |
 | D8 | GitHub repository to push to | Saving work outside the session |
+| D10 | Email provider for account emails (Resend, Postmark, SES…) | Password reset and email verification |
 | D9 | Hosting (Vercel + managed Postgres + R2/S3 is the proposal) | Deployment |
