@@ -78,11 +78,10 @@ _Audit date: 2026-10-24. Status labels used below: **Confirmed**, **Proposed**, 
 | Business name "Book Binding UAE", UAE-wide | Confirmed | All three instruction docs |
 | 14+ years of industry experience (not business age) | Confirmed | Instruction docs |
 | Instagram @book_binding_uae | Confirmed | Docs + catalogue link |
-| WhatsApp +971 52 942 7423 | Confirmed by docs — **conflicts with Demo 2** | Docs |
+| WhatsApp **+971 52 529 4086** | **Confirmed by owner 2026-10-24** (the docs' +971 52 942 7423 is outdated) | Owner message |
 | Brand logo "Book Binding UAE · تجليد وطباعة · Binding & Printing", brand blue ≈ `#0295D6` | Confirmed | Logo files |
-| Operating company "Zahra Stationery LLC" | **Open question** (only in Demo 2; catalogue shows a "zahra" mark) | Demo 2, catalogue |
-| Catalogue prices for PU Luxury Cover & Luxury Box | Confirmed (with ambiguities) | Catalogue |
-| Prices for Regular / Custom / PU Leather book | **Open question** (Demo 2 only) | Demo 2 |
+| Operating company "Zahra Stationery LLC" | Confirmed | Full catalogue cover page |
+| Prices for all four products, add-ons and page printing | Confirmed | Full 6-page catalogue (received 2026-10-24) |
 | Delivery fees, delivery areas, turnaround times | **Open question** — none found | — |
 | VAT treatment (are prices VAT-inclusive?) | **Open question** | — |
 | Payment provider | **Open question** | — |
@@ -91,7 +90,7 @@ _Audit date: 2026-10-24. Status labels used below: **Confirmed**, **Proposed**, 
 
 ## 6. Conflicts found
 
-1. **WhatsApp number**: docs say **+971 52 942 7423**; Demo 2 uses **+971 52 529 4086**. → Using the docs number (owner's latest instruction). Please confirm.
+1. ~~WhatsApp number~~ — resolved: owner confirmed **+971 52 529 4086**.
 2. **Luxury Box minimum order**: catalogue shows "Single Book & Box 1000 AED" and also "Minimum Order Quantity: 2 Bundel". Demo 2 reads this as 1 bundle = 1 book + 1 box, minimum 2 bundles (AED 2,000). → Following Demo 2's reading until confirmed.
 3. **"2 Book's & Box Price 2000 AED"**: unclear whether that is 2 books + 1 box or 2 books + 2 boxes.
 4. **B&W 80 GSM "1 AED for 5 page"**: Demo 2 uses AED 0.20 per page. For counts that are not a multiple of 5 the rounding rule is unknown.

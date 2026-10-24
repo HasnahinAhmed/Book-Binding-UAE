@@ -1,6 +1,7 @@
 /** Header/footer navigation. Only routes that exist are listed. */
 export const NAV_ITEMS = [
   { key: "products", href: "/#products" },
+  { key: "builder", href: "/thesis-builder" },
   { key: "pricing", href: "/#pricing" },
   { key: "howItWorks", href: "/#how-it-works" },
   { key: "contact", href: "/#contact" },

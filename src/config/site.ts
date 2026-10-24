@@ -7,7 +7,7 @@ const schema = z.object({
   NEXT_PUBLIC_WHATSAPP_NUMBER: z
     .string()
     .regex(/^\d{8,15}$/, "digits only, with country code")
-    .default("971529427423"),
+    .default("971525294086"),
   NEXT_PUBLIC_INSTAGRAM_HANDLE: z.string().regex(/^[A-Za-z0-9._]+$/).default("book_binding_uae"),
 });
 

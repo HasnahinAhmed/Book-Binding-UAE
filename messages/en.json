@@ -13,7 +13,7 @@
   "nav": {
     "products": "Products",
     "pricing": "Pricing",
-    "builder": "3D Thesis Builder",
+    "builder": "3D Builder",
     "howItWorks": "How it works",
     "contact": "Contact"
   },
@@ -87,7 +87,11 @@
     "step3Desc": "We confirm the final price and timing with you, then print, bind and finish your book.",
     "ctaBandTitle": "Not sure which binding your university needs?",
     "ctaBandLead": "Send us a message with your university and program. We will help you choose.",
-    "sampleAlt": "Sample thesis cover: {desc}"
+    "sampleAlt": "Sample thesis cover: {desc}",
+    "ctaBuilder": "Build your thesis in 3D",
+    "builderEyebrow": "3D thesis builder",
+    "builderTitle": "See your cover before we print it.",
+    "builderLead": "Type your title, name and university in English, Arabic or both. Turn the book, check the spine, and watch the price update."
   },
   "products": {
     "regular": {
@@ -100,7 +104,7 @@
       "name": "Custom Design Book",
       "short": "Your own full-colour cover design.",
       "desc": "Your own cover artwork, printed digitally or by screen print to match your design.",
-      "finish": "Digital or screen printing, depending on your design"
+      "finish": "Digital or screen print in gold, silver or other colours"
     },
     "leather": {
       "name": "Premium PU Leather Book",
@@ -118,7 +122,7 @@
   "colors": {
     "black": "Black",
     "maroon": "Maroon",
-    "navy": "Navy blue",
+    "navy": "Royal blue",
     "acero": "Acero",
     "madera": "Madera",
     "tejus": "Tejus",
@@ -219,6 +223,80 @@
   },
   "productPage": {
     "back": "All products",
-    "printingNote": "Interior page printing is charged separately, per page and per copy."
+    "printingNote": "Interior page printing is charged separately, per page and per copy.",
+    "customize3d": "Customise in 3D"
+  },
+  "builder": {
+    "metaTitle": "3D Thesis Builder",
+    "metaDesc": "Design your thesis cover in 3D: choose the binding, colour, gold or silver lettering, English or Arabic text, and see the price as you go.",
+    "title": "Build your thesis in 3D",
+    "lead": "Choose your binding and type your cover text. The preview and price update as you go.",
+    "previewLabel": "3D preview of your book",
+    "loading": "Loading 3D preview…",
+    "fallbackTitle": "3D preview is not available on this device",
+    "fallbackBody": "You can still choose every option. Your selections are listed below.",
+    "disclaimer": "Preview only. Colours, foil and texture are approximations of the real materials.",
+    "views": {
+      "hero": "3/4",
+      "front": "Front",
+      "spine": "Spine",
+      "back": "Back"
+    },
+    "viewsLabel": "Camera view",
+    "collapse": "Shrink preview",
+    "expand": "Enlarge preview",
+    "dragHint": "Drag to rotate",
+    "steps": {
+      "product": "Binding",
+      "cover": "Cover",
+      "text": "Cover text",
+      "printing": "Pages & quantity",
+      "review": "Review"
+    },
+    "stepOf": "Step {n} of {total}",
+    "next": "Next",
+    "back": "Back",
+    "language": "Cover language",
+    "langEn": "English",
+    "langAr": "Arabic",
+    "langBoth": "Both",
+    "direction": "Book opens",
+    "dirAuto": "Automatic",
+    "dirLtr": "Left to right",
+    "dirRtl": "Right to left (Arabic)",
+    "directionHelp": "Arabic theses are usually bound to open from the right.",
+    "fields": {
+      "university": "University name",
+      "universityAr": "University name (Arabic)",
+      "college": "College or department",
+      "title": "Thesis title",
+      "titleAr": "Thesis title (Arabic)",
+      "author": "Student name",
+      "authorAr": "Student name (Arabic)",
+      "supervisor": "Supervisor",
+      "year": "Year"
+    },
+    "placeholders": {
+      "university": "e.g. University of Sharjah",
+      "universityAr": "مثال: جامعة الشارقة",
+      "college": "e.g. College of Engineering",
+      "title": "Your thesis title",
+      "titleAr": "عنوان الرسالة",
+      "author": "Your full name",
+      "authorAr": "اسمك الكامل",
+      "supervisor": "e.g. Dr. Name Surname",
+      "year": "e.g. 2026"
+    },
+    "optional": "optional",
+    "logo": "University logo",
+    "logoHelp": "PNG or JPG up to 2 MB. Used for the preview only; send the original with your order.",
+    "logoChoose": "Choose image",
+    "logoRemove": "Remove logo",
+    "logoError": "Please choose a PNG or JPG image under 2 MB.",
+    "textHelp": "Check spelling carefully. We print your text exactly as written.",
+    "summary": "Your selections",
+    "reviewNote": "We check your cover text and file with you before printing.",
+    "productLabel": "Product",
+    "startOver": "Start over"
   }
 }

@@ -29,10 +29,10 @@ describe("cover / binding price", () => {
     expect(r).toEqual({ ok: false, error: { code: "below_minimum", minQty: 2 } });
   });
 
-  it("regular: AED 120 for one copy, AED 100 each from two (unconfirmed)", () => {
+  it("regular: AED 120 for one copy, AED 100 each from two (catalogue)", () => {
     const one = ok({ productId: "regular", quantity: 1, coverColorId: "black", foilTone: "gold" });
     expect(one.coverSubtotal).toBe(12000);
-    expect(one.hasUnconfirmedPrices).toBe(true);
+    expect(one.hasUnconfirmedPrices).toBe(false);
     const three = ok({ productId: "regular", quantity: 3, coverColorId: "black", foilTone: "silver" });
     expect(three.coverSubtotal).toBe(30000);
   });
@@ -93,8 +93,8 @@ describe("validation", () => {
   it("requires a foil tone where the product uses foil/screen", () => {
     expect(calculateQuote({ ...box, foilTone: undefined }).ok).toBe(false);
   });
-  it("rejects a foil tone for custom digital print", () => {
-    expect(calculateQuote({ productId: "custom", quantity: 1, coverColorId: "black", foilTone: "gold" }).ok).toBe(false);
+  it("custom design accepts gold or silver print colour", () => {
+    expect(calculateQuote({ productId: "custom", quantity: 1, coverColorId: "black", foilTone: "silver" }).ok).toBe(true);
   });
   it.each([0, -1, 1.5, 501])("rejects quantity %s", (quantity) => {
     expect(calculateQuote({ ...box, quantity }).ok).toBe(false);

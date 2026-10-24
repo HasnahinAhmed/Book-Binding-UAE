@@ -1,6 +1,6 @@
 # Pricing Rules
 
-_Source of truth: `Book Binding UAE Catalog.pdf` (1 page, "PU LUXURY COVER & LUXURY BOX"). Currency: AED. Last reviewed: 2026-10-24._
+_Source of truth: full `Book Binding UAE Catalog.pdf` (6 pages, Zahra Stationery LLC, dated 17 October 2026), received from the owner on 2026-10-24. Currency: AED._
 
 > Catalogue footer, verbatim: **"Price is for hardcover binding only. Printing charges apply separately."**
 > So every product price below is the **cover/binding** price. Interior page printing is always a separate line.
@@ -19,35 +19,34 @@ Open questions:
 - **P2.** Does "page" mean one printed side or one sheet? _Current assumption: one PDF page = one printed page._
 - **P3.** Can one document mix colour and B&W pages (priced separately)? _Current: one mode per order item._
 
-## 2. Add-ons — CONFIRMED (catalogue)
+## 2. Add-ons — CONFIRMED (catalogue pages 2–5, listed on every product)
 
 | Add-on | Price |
 |---|---|
 | Spine / sidebar printing | +AED 20 per book |
 | Metal corners (gold or silver) | +AED 5 per book |
 
-The catalogue lists these on the PU Luxury page. Demo 2 offers them on all four products. **Open question P4:** are both add-ons available for every product?
+## 3. Cover / binding products — CONFIRMED (catalogue)
 
-## 3. Cover / binding products
-
-| Product | Base price | Status | Source |
+| Product (catalogue page) | Price | Minimum | Lettering |
 |---|---|---|---|
-| **PU Luxury Cover & Luxury Box** (book + matching box) | AED 1,000 per bundle; "2 Book's & Box" AED 2,000; minimum order "2 Bundel" | **CONFIRMED with ambiguity** | Catalogue |
-| University Regular Thesis Hardcover (screen print, gold/silver) | AED 120 for 1; AED 100 each from 2 copies | **UNCONFIRMED** | Demo 2 only |
-| Custom Design Book (digital/screen print) | AED 120 for 1; AED 100 each from 2 copies | **UNCONFIRMED** | Demo 2 only |
-| PU Leather Luxury Book (foil) | AED 300 each; minimum 3 (3 books AED 900) | **UNCONFIRMED** | Demo 2 only |
+| Thesis Cover (Regular) (p2) | AED 120 single book; AED 100 per book for multiple books | 1 | Gold / silver screen printing |
+| Custom Design Cover (p3) | AED 120 single; AED 100 per book for multiple | 1 | Digital / screen print — gold, silver, + more; "depends on customization" |
+| PU Leather Luxury Cover (p4) | AED 300 single; 3 books AED 900 | 3 books | Gold / silver foil |
+| PU Luxury Cover & Luxury Box (p5) | AED 1,000 single book & box; 2 books & box AED 2,000 | "2 Bundel" | Gold / silver foil |
 
-The owner's start prompt mentions "AED 100, AED 120, or AED 300" as catalogue examples, which matches Demo 2, but these values are not in the catalogue file we received. **Open question P5:** please confirm these three prices (or share the other catalogue pages).
+Regular and Custom pages say "Hardcover Price Only". Interpretation used: "multiple" = 2 or more copies at AED 100 each.
 
-Luxury Box open questions:
-- **P6.** Does the AED 1,000 bundle = 1 book + 1 box? Is the minimum 2 bundles? Is "2 Book's & Box 2000" = 2 books + 2 boxes?
+Remaining open questions:
+- **P6.** Luxury box: catalogue lists a single-set price (AED 1,000) but a minimum of "2 Bundel". _Current: AED 1,000 per set, minimum 2 sets._ Please confirm a single set cannot be ordered.
+- **P6b.** PU Leather: catalogue shows a single-book price (AED 300) but minimum 3 books. _Current: minimum 3._
 
 ## 4. Colours and finishes (from catalogue + photos)
 
 - PU Luxury book colours: **Acero** (black textured), **Madera** (brown), **Tejus** (gold/croc texture), "+ More" (on request).
 - Box colours: Acero, Madera, Tejus, + More.
 - Foil colours: **Gold**, **Silver**.
-- Regular hardcover colours seen in photos and Demo 2: black, maroon, navy/royal blue. (Demo 2 data; photos confirm black, maroon, navy exist.)
+- Regular and Custom cover colours: Black, Maroon, Royal Blue (Custom: + more on request).
 
 ## 5. Not confirmed — NOT implemented as prices
 
@@ -64,4 +63,4 @@ Delivery fees, express/turnaround surcharges, quantity discounts (other than the
 - The server always recalculates from IDs/options; it never accepts a client total.
 - Page count for an uploaded PDF is read on the server.
 - The breakdown always shows: cover/binding, interior printing, add-ons, quantity subtotal, delivery (when known), total.
-- Products with **unconfirmed** prices are shown with an "estimate — to be confirmed" label and **cannot be paid online** until the owner confirms the price in admin.
+- All four products are now confirmed. Any future product added with `status: "unconfirmed"` is shown as "Price to be confirmed" and cannot be paid online until confirmed in admin.

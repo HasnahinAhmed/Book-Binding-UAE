@@ -3,8 +3,8 @@
  * admin-managed database takes over (Milestone 9).
  *
  * Every price carries a status and source. See docs/PRICING_RULES.md.
- *  - "confirmed":   appears in Book Binding UAE Catalog.pdf
- *  - "unconfirmed": only in Demo 2 data; shown as an estimate, never charged online
+ *  - "confirmed":   appears in the Book Binding UAE catalogue (Zahra Stationery LLC, 17 Oct 2026)
+ *  - "unconfirmed": not in the catalogue; shown as an estimate, never charged online
  */
 import { aed, type Fils } from "./money";
 
@@ -47,15 +47,14 @@ export interface Product {
   images: { card: string; gallery: string[] };
 }
 
-const BLACK: ColorOption = { id: "black", hex: "#16181D", texture: "cloth" };
+const BLACK: ColorOption = { id: "black", hex: "#0C0D10", texture: "cloth" };
 const MAROON: ColorOption = { id: "maroon", hex: "#6E1A2C", texture: "cloth" };
-const NAVY: ColorOption = { id: "navy", hex: "#1C2F5E", texture: "cloth" };
+const NAVY: ColorOption = { id: "navy", hex: "#1D3A8A", texture: "cloth" }; // "Royal Blue" in the catalogue
 const ACERO: ColorOption = { id: "acero", hex: "#23262B", texture: "leather" };
 const MADERA: ColorOption = { id: "madera", hex: "#7A3B24", texture: "leather" };
 const TEJUS: ColorOption = { id: "tejus", hex: "#C4953A", texture: "croc" };
 
-const CATALOGUE_PDF = "Book Binding UAE Catalog.pdf (PU Luxury Cover & Luxury Box)";
-const DEMO2 = "Demo 2 product data — awaiting owner confirmation";
+const catalogue = (page: number) => `Book Binding UAE catalogue (17 Oct 2026), page ${page}`;
 
 export const PRODUCTS: Record<ProductId, Product> = {
   regular: {
@@ -66,8 +65,8 @@ export const PRODUCTS: Record<ProductId, Product> = {
       { minQty: 1, unitPrice: aed(120) },
       { minQty: 2, unitPrice: aed(100) },
     ],
-    priceStatus: "unconfirmed",
-    priceSource: DEMO2,
+    priceStatus: "confirmed",
+    priceSource: catalogue(2),
     coverColors: [BLACK, MAROON, NAVY],
     moreColorsOnRequest: false,
     finish: "screen",
@@ -85,12 +84,13 @@ export const PRODUCTS: Record<ProductId, Product> = {
       { minQty: 1, unitPrice: aed(120) },
       { minQty: 2, unitPrice: aed(100) },
     ],
-    priceStatus: "unconfirmed",
-    priceSource: DEMO2,
+    priceStatus: "confirmed",
+    priceSource: catalogue(3),
     coverColors: [BLACK, MAROON, NAVY],
     moreColorsOnRequest: true,
     finish: "digital-or-screen",
-    foilTones: [],
+    // Catalogue: "Digital / Screen Print Color: Gold, Silver, + More"
+    foilTones: ["gold", "silver"],
     images: { card: "custom-orange", gallery: ["custom-orange", "custom-navy-1", "custom-navy-2"] },
   },
   leather: {
@@ -98,8 +98,8 @@ export const PRODUCTS: Record<ProductId, Product> = {
     unit: "book",
     minQty: 3,
     tiers: [{ minQty: 3, unitPrice: aed(300) }],
-    priceStatus: "unconfirmed",
-    priceSource: DEMO2,
+    priceStatus: "confirmed",
+    priceSource: catalogue(4),
     coverColors: [ACERO, MADERA, TEJUS],
     moreColorsOnRequest: true,
     finish: "foil",
@@ -113,7 +113,7 @@ export const PRODUCTS: Record<ProductId, Product> = {
     minQty: 2,
     tiers: [{ minQty: 1, unitPrice: aed(1000) }],
     priceStatus: "confirmed",
-    priceSource: CATALOGUE_PDF,
+    priceSource: catalogue(5),
     coverColors: [ACERO, MADERA, TEJUS],
     moreColorsOnRequest: true,
     boxColors: [ACERO, MADERA, TEJUS],
@@ -125,7 +125,7 @@ export const PRODUCTS: Record<ProductId, Product> = {
 
 export const PRODUCT_ORDER: ProductId[] = ["regular", "custom", "leather", "luxury-box"];
 
-/** Per-book add-ons. Source: catalogue "Additional items & items Price". */
+/** Per-book add-ons, offered on every product. Source: catalogue pages 2–5. */
 export const ADDONS = {
   spinePrinting: { price: aed(20), status: "confirmed" as PriceStatus },
   metalCorners: { price: aed(5), status: "confirmed" as PriceStatus },

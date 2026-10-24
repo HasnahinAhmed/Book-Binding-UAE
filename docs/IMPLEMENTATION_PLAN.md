@@ -44,9 +44,9 @@ Status: ☐ not started · ◐ in progress · ☑ done
 | # | Question | Blocks |
 |---|---|---|
 | D1 | Approve the four homepage categories (Regular hardcover · Custom design · PU leather · Luxury book + box) | Milestone 3 final copy |
-| D2 | Confirm Regular / Custom / PU Leather prices (Demo 2: 120 → 100 for 2+, 120 → 100, 300 min 3) | Online payment for those products |
+| ~~D2~~ | Resolved: full catalogue confirms all prices | — |
 | D3 | Luxury Box bundle and minimum (PRICING_RULES P6) | Box pricing |
-| D4 | WhatsApp number: +971 52 942 7423 (docs) vs +971 52 529 4086 (Demo 2) | Contact links |
+| ~~D4~~ | Resolved: +971 52 529 4086 | — |
 | D5 | Payment provider + account | Milestone 8 |
 | D6 | Delivery fees/areas, collection address, VAT | Milestone 8 |
 | D7 | Upload formats and max size | Milestone 6 (default proposal: PDF only, 50 MB) |
