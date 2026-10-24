@@ -170,5 +170,55 @@
       "color": "colour",
       "bw": "black & white"
     }
+  },
+  "order": {
+    "title": "Customise and price",
+    "coverColor": "Cover colour",
+    "boxColor": "Box colour",
+    "foil": "Lettering colour",
+    "moreColors": "More colours available on request.",
+    "quantity": "Quantity",
+    "quantityHelp": "Minimum {min}.",
+    "decrease": "Decrease quantity",
+    "increase": "Increase quantity",
+    "extras": "Extras",
+    "spine": "Spine / sidebar printing",
+    "corners": "Metal corners",
+    "cornersNone": "No corners",
+    "printingTitle": "Interior printing",
+    "printingToggle": "Print my thesis pages too",
+    "printingHelp": "Turn this off if you will bring printed pages.",
+    "pages": "Pages per copy",
+    "pagesHelp": "An estimate is fine. We count your PDF pages before you pay.",
+    "paper": "Paper",
+    "mode": "Printing",
+    "color": "Colour",
+    "bw": "Black & white",
+    "sendWhatsapp": "Send this order on WhatsApp",
+    "whatsappNote": "Opens WhatsApp with your order details. We reply to confirm the final price, cover text and timing.",
+    "invalid": "Please check the highlighted options.",
+    "belowMin": "The minimum order for this product is {min}.",
+    "finish": "Finish",
+    "gallery": "Product photos",
+    "showImage": "Show photo {n}",
+    "wa": {
+      "intro": "Hello Book Binding UAE, I would like to order:",
+      "product": "Product",
+      "qty": "Quantity",
+      "cover": "Cover colour",
+      "box": "Box colour",
+      "foil": "Lettering",
+      "spine": "Spine printing: yes",
+      "corners": "Metal corners",
+      "printing": "Printing",
+      "noPrinting": "Printing: not needed",
+      "subtotal": "Estimated subtotal",
+      "estimate": "(estimate — please confirm)",
+      "page": "Page"
+    }
+  },
+  "productPage": {
+    "back": "All products",
+    "printingNote": "Interior page printing is charged separately, per page and per copy."
   }
 }

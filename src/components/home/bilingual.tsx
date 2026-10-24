@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import { imageInfo } from "@/lib/images";
-import { SectionHeading } from "@/components/ui/section-heading";
 
 const SAMPLES = ["regular-black-arabic-2", "regular-black-arabic-1", "regular-maroon"] as const;
 
