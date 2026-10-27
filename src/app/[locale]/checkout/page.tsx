@@ -20,7 +20,7 @@ export default async function CheckoutPage({ params }: Props) {
   const t = await getTranslations("checkout");
   return (
     <div className="container-page py-10 lg:py-14">
-      <h1 className="text-h2 font-semibold text-navy-950">{t("title")}</h1>
+      <h1 className="text-h2 font-semibold text-heading">{t("title")}</h1>
       <div className="mt-8">
         <CheckoutForm defaultName={session.user.name} email={session.user.email} />
       </div>

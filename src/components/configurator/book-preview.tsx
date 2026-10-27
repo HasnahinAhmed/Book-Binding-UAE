@@ -78,7 +78,7 @@ export function BookPreview({
                 aria-pressed={view.name === v && view.seq > 0}
                 className={cn(
                   "h-8 rounded-full px-3 text-xs font-medium text-ink-muted transition-colors hover:text-navy-950 sm:text-sm",
-                  view.name === v && view.seq > 0 && "bg-navy-900 text-white hover:text-white",
+                  view.name === v && view.seq > 0 && "bg-brand-600 text-white hover:text-white",
                 )}
               >
                 {t(`views.${v}`)}

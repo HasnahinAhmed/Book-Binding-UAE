@@ -30,7 +30,9 @@
   --color-navy-900: #0b1c36;
   --color-navy-950: #061226;
 
-  --color-ink: #0f172a;
+  /* Headings use the logo blue, darkened for AA contrast on white (6.9:1). */
+  --color-heading: #04608d;
+  --color-ink: #0b1220;
   --color-ink-muted: #475569;
   --color-ink-subtle: #64748b;
   --color-line: #e2e8f0;
@@ -72,7 +74,7 @@
   html {
     -webkit-text-size-adjust: 100%;
     text-rendering: optimizeLegibility;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 6rem;
   }
   body {
     background: var(--color-surface);
@@ -113,6 +115,24 @@
   @media (min-width: 1024px) {
     .container-page {
       padding-inline: 2rem;
+    }
+  }
+  /* Floating glass layer (nav, sticky bars). Used sparingly: not for content. */
+  .glass {
+    background-color: rgb(255 255 255 / 0.72);
+    backdrop-filter: saturate(180%) blur(20px);
+    -webkit-backdrop-filter: saturate(180%) blur(20px);
+    box-shadow:
+      inset 0 0 0 1px rgb(255 255 255 / 0.6),
+      0 0 0 1px rgb(11 18 32 / 0.06),
+      0 8px 32px -12px rgb(11 28 54 / 0.18);
+  }
+  .glass-strong {
+    background-color: rgb(255 255 255 / 0.9);
+  }
+  @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass {
+      background-color: rgb(255 255 255 / 0.97);
     }
   }
   /* Mixed-direction values (phone numbers, prices, order IDs) stay LTR inside RTL text. */

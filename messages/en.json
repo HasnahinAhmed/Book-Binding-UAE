@@ -11,7 +11,7 @@
     "home": "Book Binding UAE home"
   },
   "nav": {
-    "products": "Products",
+    "products": "Binding options",
     "pricing": "Pricing",
     "builder": "3D Builder",
     "howItWorks": "How it works",
@@ -25,7 +25,8 @@
   "cta": {
     "whatsapp": "Chat on WhatsApp",
     "whatsappShort": "WhatsApp",
-    "whatsappGreeting": "Hello Book Binding UAE, I would like to ask about thesis binding."
+    "whatsappGreeting": "Hello Book Binding UAE, I would like to ask about thesis binding.",
+    "orderOnline": "Order Online"
   },
   "footer": {
     "tagline": "Thesis printing, hardcover binding and premium PU leather books, made in the UAE.",
@@ -34,7 +35,8 @@
     "linksTitle": "Explore",
     "instagram": "Instagram",
     "priceNote": "Product prices are for hardcover binding only. Page printing is charged separately.",
-    "rights": "© {year} Book Binding UAE. All rights reserved."
+    "rights": "© {year} Book Binding UAE. All rights reserved.",
+    "order": "Order"
   },
   "home": {
     "eyebrow": "Thesis printing & binding · UAE-wide",
@@ -92,7 +94,22 @@
     "ctaBuilder": "Build your thesis in 3D",
     "builderEyebrow": "3D thesis builder",
     "builderTitle": "See your cover before we print it.",
-    "builderLead": "Type your title, name and university in English, Arabic or both. Turn the book, check the spine, and watch the price update."
+    "builderLead": "Type your title, name and university in English, Arabic or both. Turn the book, check the spine, and watch the price update.",
+    "proof1": "14+ years of binding experience",
+    "proof2": "English and Arabic covers",
+    "proof3": "See your price as you design",
+    "browseOptions": "Browse binding options",
+    "builderPoint1": "Turn the book and check the spine",
+    "builderPoint2": "Type your cover text in English, Arabic or both",
+    "builderPoint3": "Watch the price update with every choice",
+    "livePreview": "Live 3D preview",
+    "pricingLink": "See your exact price in the builder",
+    "pricePart1": "Cover and binding",
+    "pricePart1Desc": "The price of the binding you choose, per book.",
+    "pricePart2": "Page printing",
+    "pricePart2Desc": "Optional. Based on your page count, paper and colour.",
+    "pricePart3": "Extras",
+    "pricePart3Desc": "Spine printing or metal corners, only if you add them."
   },
   "products": {
     "regular": {

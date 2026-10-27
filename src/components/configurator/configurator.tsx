@@ -160,7 +160,7 @@ export function Configurator({
       <div
         className={cn(
           "z-20 -mx-4 bg-white px-4 pb-3 sm:-mx-6 sm:px-6 lg:mx-0 lg:bg-transparent lg:px-0 lg:pb-0",
-          "sticky top-[calc(4rem+env(safe-area-inset-top))] [@media(max-height:560px)]:static",
+          "sticky top-[calc(4.5rem+env(safe-area-inset-top))] [@media(max-height:560px)]:static",
           "lg:top-24 lg:self-start",
         )}
       >
@@ -185,7 +185,7 @@ export function Configurator({
       </div>
 
       <div className="mt-4 min-w-0 lg:mt-0">
-        <ol className="flex flex-wrap gap-1" aria-label={t("builder.stepOf", { n: stepIndex + 1, total: STEPS.length })}>
+        <ol className="-mx-4 flex gap-1 overflow-x-auto px-4 [scrollbar-width:none] sm:-mx-6 sm:px-6 lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0" aria-label={t("builder.stepOf", { n: stepIndex + 1, total: STEPS.length })}>
           {STEPS.map((s, i) => (
             <li key={s} className="shrink-0">
               <button
@@ -194,7 +194,7 @@ export function Configurator({
                 aria-current={s === step ? "step" : undefined}
                 className={cn(
                   "flex h-9 items-center gap-1.5 rounded-full px-3 text-sm font-medium transition-colors",
-                  s === step ? "bg-navy-900 text-white" : "text-ink-muted hover:bg-navy-50 hover:text-navy-950",
+                  s === step ? "bg-brand-600 text-white shadow-sm" : "text-ink-muted hover:bg-navy-50 hover:text-ink",
                 )}
               >
                 <span
@@ -215,7 +215,7 @@ export function Configurator({
         <div
           ref={panelRef}
           tabIndex={-1}
-          className="mt-5 scroll-mt-[calc(4rem+26svh)] rounded-2xl outline-none lg:scroll-mt-24"
+          className="mt-5 scroll-mt-[calc(4.5rem+26svh)] rounded-2xl outline-none lg:scroll-mt-24"
           aria-labelledby="builder-step-title"
         >
           {loadError && (
@@ -224,7 +224,7 @@ export function Configurator({
             </p>
           )}
           <p className="text-sm text-ink-subtle">{t("builder.stepOf", { n: stepIndex + 1, total: STEPS.length })}</p>
-          <h2 id="builder-step-title" className="mt-0.5 text-2xl font-semibold text-navy-950">
+          <h2 id="builder-step-title" className="mt-0.5 text-2xl font-semibold text-heading">
             {t(`builder.steps.${step}`)}
           </h2>
           <div className="mt-6 space-y-8">
@@ -304,7 +304,7 @@ export function Configurator({
 
         {/* Step footer: running subtotal + navigation. Sticky at the bottom on mobile. */}
         <div
-          className="sticky bottom-0 z-10 -mx-4 mt-8 flex items-center justify-between gap-3 border-t border-line bg-white/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 lg:static lg:mx-0 lg:rounded-xl lg:border lg:px-4"
+          className="glass glass-strong sticky bottom-0 z-10 -mx-4 mt-8 flex items-center justify-between gap-3 rounded-t-3xl px-4 py-3 sm:-mx-6 sm:px-6 lg:static lg:mx-0 lg:rounded-2xl lg:px-4"
           style={{ paddingBottom: "max(0.75rem, env(safe-area-inset-bottom))" }}
         >
           <div className="min-w-0" aria-live="polite">

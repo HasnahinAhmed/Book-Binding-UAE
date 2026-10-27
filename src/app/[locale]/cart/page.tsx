@@ -17,7 +17,7 @@ export default async function CartPage({ params }: Props) {
   const [t, session] = [await getTranslations("cart"), await currentSession()];
   return (
     <div className="container-page py-10 lg:py-14">
-      <h1 className="text-h2 font-semibold text-navy-950">{t("title")}</h1>
+      <h1 className="text-h2 font-semibold text-heading">{t("title")}</h1>
       <div className="mt-8">
         <CartView signedIn={!!session} />
       </div>

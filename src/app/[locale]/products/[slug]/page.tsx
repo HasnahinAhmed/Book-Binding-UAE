@@ -76,7 +76,7 @@ export default async function ProductPage({ params }: Params) {
           <Gallery images={images} />
         </div>
         <div className="min-w-0">
-          <h1 className="text-h1 font-semibold text-navy-950 text-balance">{t(`products.${product.id}.name`)}</h1>
+          <h1 className="text-h1 font-semibold text-heading text-balance">{t(`products.${product.id}.name`)}</h1>
           <p className="mt-3 text-lg leading-relaxed text-ink-muted">{t(`products.${product.id}.desc`)}</p>
           <dl className="mt-5 flex flex-wrap gap-2">
             <dt className="sr-only">{t("order.finish")}</dt>

@@ -6,15 +6,22 @@ export type ButtonSize = "sm" | "md" | "lg";
 const base =
   "inline-flex items-center justify-center gap-2 rounded-full font-medium whitespace-nowrap select-none " +
   "transition-[background-color,color,box-shadow,transform] duration-200 ease-[var(--ease-out-soft)] " +
-  "active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 " +
+  "motion-safe:hover:-translate-y-px active:translate-y-0 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 " +
   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-500";
 
 const variants: Record<ButtonVariant, string> = {
-  primary: "bg-navy-900 text-white hover:bg-navy-800 shadow-sm",
-  brand: "bg-brand-600 text-white hover:bg-brand-700 shadow-sm",
-  secondary: "bg-white text-navy-900 ring-1 ring-inset ring-line hover:bg-navy-50",
-  ghost: "text-navy-900 hover:bg-navy-50",
-  whatsapp: "bg-[#0F7A40] text-white hover:bg-[#0C6834] shadow-sm",
+  // Primary: blue with white text. One per view.
+  primary:
+    "bg-brand-600 text-white shadow-[0_1px_2px_rgb(2_120_176/0.25),0_8px_20px_-8px_rgb(2_120_176/0.55)] hover:bg-brand-700 hover:shadow-[0_2px_4px_rgb(2_120_176/0.25),0_12px_28px_-10px_rgb(2_120_176/0.6)]",
+  brand:
+    "bg-brand-600 text-white shadow-[0_1px_2px_rgb(2_120_176/0.25),0_8px_20px_-8px_rgb(2_120_176/0.55)] hover:bg-brand-700",
+  // Secondary: white glass with a hairline border.
+  secondary:
+    "bg-white/75 text-ink ring-1 ring-inset ring-navy-200/70 backdrop-blur-md hover:bg-white hover:ring-brand-300 hover:text-brand-700",
+  ghost: "text-ink hover:bg-navy-50",
+  // WhatsApp stays in the secondary style so blue remains the only action colour.
+  whatsapp:
+    "bg-white/75 text-ink ring-1 ring-inset ring-navy-200/70 backdrop-blur-md hover:bg-white hover:ring-[#0F7A40]/40 [&_svg]:text-[#0F7A40]",
 };
 
 const sizes: Record<ButtonSize, string> = {

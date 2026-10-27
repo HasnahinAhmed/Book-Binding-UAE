@@ -73,7 +73,7 @@ export default async function OrderPage({ params, searchParams }: Props) {
       )}
 
       <div className="mt-6 flex flex-wrap items-center gap-3">
-        <h1 className="ltr-value text-h2 font-semibold text-navy-950">{order.number}</h1>
+        <h1 className="ltr-value text-h2 font-semibold text-heading">{order.number}</h1>
         <StatusBadge status={order.status} />
       </div>
       <p className="mt-1 text-sm text-ink-muted">{t("account.placedOn", { date: when(order.createdAt) })}</p>

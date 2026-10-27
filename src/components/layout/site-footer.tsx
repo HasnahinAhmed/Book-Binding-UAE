@@ -11,20 +11,20 @@ export function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer id="contact" className="mt-24 bg-navy-950 text-navy-100" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
+    <footer id="contact" className="mt-24 border-t border-line bg-white text-ink" style={{ paddingBottom: "env(safe-area-inset-bottom)" }}>
       <div className="container-page grid gap-12 py-16 md:grid-cols-[1.4fr_1fr_1fr]">
         <div className="max-w-sm">
-          <Image src="/images/logo-white-480.webp" alt="Book Binding UAE" width={480} height={416} className="h-16 w-auto" />
-          <p className="mt-5 text-[0.9375rem] leading-relaxed text-navy-200">{t("footer.tagline")}</p>
-          <p className="mt-3 text-sm font-medium text-brand-300">{t("footer.experience")}</p>
+          <Image src="/images/logo-horizontal-480.webp" alt="Book Binding UAE" width={480} height={206} className="h-10 w-auto" />
+          <p className="mt-5 text-[0.9375rem] leading-relaxed text-ink-muted">{t("footer.tagline")}</p>
+          <p className="mt-3 text-sm font-medium text-brand-700">{t("footer.experience")}</p>
         </div>
 
         <div>
-          <h2 className="text-sm font-semibold tracking-wide text-white">{t("footer.linksTitle")}</h2>
+          <h2 className="text-sm font-semibold tracking-wide text-ink">{t("footer.linksTitle")}</h2>
           <ul className="mt-4 space-y-2.5">
             {NAV_ITEMS.map((item) => (
               <li key={item.key}>
-                <Link href={item.href} className="text-[0.9375rem] text-navy-200 transition-colors hover:text-white">
+                <Link href={item.href} className="text-[0.9375rem] text-ink-muted transition-colors hover:text-brand-700">
                   {t(`nav.${item.key}`)}
                 </Link>
               </li>
@@ -33,16 +33,16 @@ export function SiteFooter() {
         </div>
 
         <div>
-          <h2 className="text-sm font-semibold tracking-wide text-white">{t("footer.contactTitle")}</h2>
+          <h2 className="text-sm font-semibold tracking-wide text-ink">{t("footer.contactTitle")}</h2>
           <ul className="mt-4 space-y-3">
             <li>
               <a
                 href={whatsappLink(t("cta.whatsappGreeting"))}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 text-[0.9375rem] text-navy-200 transition-colors hover:text-white"
+                className="inline-flex items-center gap-2.5 text-[0.9375rem] text-ink-muted transition-colors hover:text-brand-700"
               >
-                <WhatsAppIcon className="size-4 shrink-0 text-[#25D366]" />
+                <WhatsAppIcon className="size-4 shrink-0 text-[#0F7A40]" />
                 <span className="ltr-value">{formatPhone(site.whatsappNumber)}</span>
               </a>
             </li>
@@ -51,7 +51,7 @@ export function SiteFooter() {
                 href={site.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2.5 text-[0.9375rem] text-navy-200 transition-colors hover:text-white"
+                className="inline-flex items-center gap-2.5 text-[0.9375rem] text-ink-muted transition-colors hover:text-brand-700"
               >
                 <InstagramIcon className="size-4 shrink-0" />
                 <span className="ltr-value">@{site.instagramHandle}</span>
@@ -60,8 +60,8 @@ export function SiteFooter() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-white/10">
-        <div className="container-page flex flex-col gap-2 py-6 text-sm text-navy-300 sm:flex-row sm:items-center sm:justify-between">
+      <div className="border-t border-line">
+        <div className="container-page flex flex-col gap-2 py-6 text-sm text-ink-subtle sm:flex-row sm:items-center sm:justify-between">
           <p>{t("footer.priceNote")}</p>
           <p>{t("footer.rights", { year })}</p>
         </div>
