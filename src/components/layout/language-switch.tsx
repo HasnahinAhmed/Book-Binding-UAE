@@ -22,7 +22,7 @@ export function LanguageSwitch({ className }: { className?: string }) {
       hrefLang={target}
       aria-label={t("switchLabel")}
       className={cn(
-        "inline-flex h-9 items-center gap-1.5 rounded-full px-3 text-sm font-medium text-navy-900 hover:bg-navy-50",
+        "h-9 items-center gap-1.5 rounded-full px-3 text-sm font-medium text-ink hover:bg-navy-900/5",
         className,
       )}
     >

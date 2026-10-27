@@ -27,7 +27,7 @@ export default async function ThesisBuilderPage({ params, searchParams }: PagePr
   return (
     <div className="container-page pt-6 pb-10 lg:pt-10">
       <header className="mb-5 max-w-2xl lg:mb-8">
-        <h1 className="text-h1 font-semibold text-navy-950 text-balance">{t("title")}</h1>
+        <h1 className="text-h1 font-semibold text-heading text-balance">{t("title")}</h1>
         <p className="mt-2 text-ink-muted max-lg:hidden">{t("lead")}</p>
       </header>
       <Configurator

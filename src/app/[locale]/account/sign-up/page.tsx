@@ -22,7 +22,7 @@ export default async function Page({ params, searchParams }: Props) {
   return (
     <div className="container-page flex justify-center py-12 lg:py-20">
       <div className="w-full max-w-md">
-        <h1 className="text-h2 font-semibold text-navy-950">{t("signUpTitle")}</h1>
+        <h1 className="text-h2 font-semibold text-heading">{t("signUpTitle")}</h1>
         <p className="mt-2 text-ink-muted">{t("signUpLead")}</p>
         <div className="mt-8 rounded-2xl bg-white p-6 ring-1 ring-line sm:p-8">
           <AuthForm mode="sign-up" next={next} />

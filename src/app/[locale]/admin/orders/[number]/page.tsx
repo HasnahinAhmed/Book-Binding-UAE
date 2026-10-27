@@ -38,7 +38,7 @@ export default async function AdminOrderPage({ params }: Props) {
         {t("admin.order.back")}
       </Link>
       <div className="mt-4 flex flex-wrap items-center gap-3">
-        <h1 className="ltr-value text-h2 font-semibold text-navy-950">{order.number}</h1>
+        <h1 className="ltr-value text-h2 font-semibold text-heading">{order.number}</h1>
         <StatusBadge status={order.status} />
         <span className="text-sm text-ink-muted">{t(`paymentStatus.${order.paymentStatus}`)}</span>
       </div>

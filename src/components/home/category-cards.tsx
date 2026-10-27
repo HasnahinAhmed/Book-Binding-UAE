@@ -29,9 +29,9 @@ export async function CategoryCards() {
             <li key={p.id}>
               <Link
                 href={`/products/${productSlug(p.id)}`}
-                className="group flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-card ring-1 ring-line transition-[box-shadow,transform] duration-300 ease-[var(--ease-out-soft)] hover:-translate-y-1 hover:shadow-lift"
+                className="group flex h-full flex-col overflow-hidden rounded-2xl bg-white ring-1 ring-line transition-[box-shadow,transform] duration-300 ease-[var(--ease-out-soft)] hover:-translate-y-1 hover:shadow-lift hover:ring-brand-200"
               >
-                <div className="relative flex aspect-[4/5] items-center justify-center overflow-hidden bg-[linear-gradient(160deg,var(--color-navy-50),var(--color-brand-50))]">
+                <div className="relative flex aspect-[4/3] items-center sm:aspect-[4/5] justify-center overflow-hidden bg-canvas">
                   <Image
                     src={img.src}
                     alt={t("home.sampleAlt", { desc: t(`samples.${p.images.card}`) })}
@@ -46,12 +46,12 @@ export async function CategoryCards() {
                   />
                 </div>
                 <div className="flex flex-1 flex-col p-5">
-                  <h3 className="text-lg font-semibold text-navy-950">{t(`products.${p.id}.name`)}</h3>
+                  <h3 className="text-lg font-semibold text-ink">{t(`products.${p.id}.name`)}</h3>
                   <p className="mt-1.5 text-[0.9375rem] leading-relaxed text-ink-muted">{t(`products.${p.id}.short`)}</p>
                   <div className="mt-auto pt-5">
                     <p className="text-sm text-ink-subtle">{t("home.from")}</p>
                     <p className="flex flex-wrap items-baseline gap-x-1.5">
-                      <span className="ltr-value text-xl font-semibold text-navy-950">{formatAED(startingPrice(p), locale)}</span>
+                      <span className="ltr-value text-xl font-semibold text-ink">{formatAED(startingPrice(p), locale)}</span>
                       <span className="text-sm text-ink-subtle">{t(`home.perUnit.${p.unit}`)}</span>
                     </p>
                     <ul className="mt-2 space-y-1 text-sm text-ink-muted">
